@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace AppVersion\Test\TestCase\Middleware;
 
 use AppVersion\Middleware\AppVersionHeaderMiddleware;
-use App\Test\TestCase\TestRequestHandler;
+use AppVersion\Test\TestCase\TestRequestHandler;
 use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
