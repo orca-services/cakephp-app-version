@@ -36,8 +36,10 @@ class AppVersionHeaderMiddleware implements MiddlewareInterface
 
         $appVersionPrefix = Configure::read('App.versionPrefix', 'X');
         $appVersion = Configure::read('App.version', 'Unknown');
+        $deploymentTime = Configure::read('App.deploymentTime', 'Unknown');
 
         $response = $response->withHeader($appVersionPrefix . '-App-Version', $appVersion);
+        $response = $response->withHeader($appVersionPrefix . '-Deployment-Time', $deploymentTime);
 
         return $response;
     }

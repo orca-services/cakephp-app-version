@@ -51,18 +51,23 @@ class AppVersionHeaderMiddlewareTest extends TestCase
     {
         $origAppVersion = Configure::read('App.version');
         $origAppVersionPrefix = Configure::read('App.versionPrefix');
+        $origDeploymentTime = Configure::read('App.deploymentTime');
 
         $appVersion = '1.2.3';
         Configure::write('App.version', $appVersion);
         $appVersionPrefix = 'vendor';
         Configure::write('App.versionPrefix', $appVersionPrefix);
+        $deploymentTime = "2024-11-07";
+        Configure::write('App.deploymentTime', $deploymentTime);
 
         $response = $this->appVersionHeader->process($this->request, $this->handler);
 
         self::assertSame($appVersion, $response->getHeaderLine($appVersionPrefix . '-App-Version'));
+        self::assertSame($deploymentTime, $response->getHeaderLine($appVersionPrefix . '-Deployment-Time'));
 
         Configure::write('App.version', $origAppVersion);
         Configure::write('App.versionPrefix', $origAppVersionPrefix);
+        Configure::write('App.deploymentTime', $origDeploymentTime);
     }
 
     /**
@@ -108,6 +113,29 @@ class AppVersionHeaderMiddlewareTest extends TestCase
         self::assertSame($appVersion, $response->getHeaderLine('X-App-Version'));
 
         Configure::write('App.version', $origAppVersion);
+        Configure::write('App.versionPrefix', $origAppVersionPrefix);
+    }
+
+    /**
+     * Test process method when Deployment time is not set
+     *
+     * @return void
+     * @uses \AppVersion\Middleware\AppVersionHeaderMiddleware::process()
+     */
+    public function testProcessDeploymentTimeNotSet(): void
+    {
+        $origDeploymentTime = Configure::read('App.deploymentTime');
+        $origAppVersionPrefix = Configure::read('App.versionPrefix');
+
+        Configure::delete('App.deploymentTime');
+        $appVersionPrefix = 'vendor';
+        Configure::write('App.versionPrefix', $appVersionPrefix);
+
+        $response = $this->appVersionHeader->process($this->request, $this->handler);
+
+        self::assertSame('Unknown', $response->getHeaderLine($appVersionPrefix . '-Deployment-Time'));
+
+        Configure::write('App.deploymentTime', $origDeploymentTime);
         Configure::write('App.versionPrefix', $origAppVersionPrefix);
     }
 }
