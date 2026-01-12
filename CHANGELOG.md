@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Dependencies
 - cakephp/chronos updated from 2.4.5 to 3.3.1 major
 - cakephp/cakephp updated from 4.6.3 to 5.3.0 major
+- phpunit/phpunit updated from 9.6.31 to 10.5.60 major
 
 ### Fixed
 
