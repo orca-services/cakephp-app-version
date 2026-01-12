@@ -6,8 +6,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+- Upgraded to CakePHP 5.0.x
 
 ### Dependencies
+- cakephp/chronos updated from 2.4.5 to 3.3.1 major
+- cakephp/cakephp updated from 4.6.3 to 5.3.0 major
 
 ### Fixed
 
