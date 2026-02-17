@@ -6,14 +6,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+
+### Dependencies
+
+### Fixed
+
+## [1.0.0](https://github.com/orca-services/cakephp-app-version/releases/tag/1.0.0) - 2026-02-17
+### Changed
 - Upgraded to CakePHP 5.0.x
 
 ### Dependencies
 - cakephp/chronos updated from 2.4.5 to 3.3.1 major
 - cakephp/cakephp updated from 4.6.3 to 5.3.0 major
 - phpunit/phpunit updated from 9.6.31 to 10.5.60 major
-
-### Fixed
 
 ## [0.1.0](https://github.com/orca-services/cakephp-app-version/releases/tag/0.1.0) - 2024-10-03
 ### Added
