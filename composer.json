@@ -38,6 +38,7 @@
         "cakephp/cakephp": "^4.0"
     },
     "require-dev": {
+        "cakephp/cakephp-codesniffer": "^4.0",
         "phpunit/phpunit": "^8.5 || ^9.3"
     },
     "autoload": {
@@ -52,11 +53,20 @@
         }
     },
     "scripts": {
+        "check": [
+            "@test",
+            "@cs-check"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-html build/coverage"
     },
     "config": {
         "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
         "audit": {
             "ignore": {
                 "CVE-2023-29530": "PHP Version >=8.0 is needed for a secure version of laminas/diactoros"
