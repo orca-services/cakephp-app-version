@@ -16,7 +16,7 @@ Set them in `config/app.php` (or `config/app_local.php`):
 ],
 ```
 
-This will produce the response header:
+This will produce the HTTP response header:
 
 ```
 Acme-App-Version: 1.2.3

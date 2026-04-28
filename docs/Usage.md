@@ -20,7 +20,7 @@ Add `AppVersionHeaderMiddleware` **before** `ErrorHandlerMiddleware` if you want
 
 Configure the header value and prefix as described in [Configuration](Configuration.md).
 
-Every response will then include a header of the form:
+Every response will then include an HTTP header of the form:
 
 ```
 {Prefix}-App-Version: {Version}
