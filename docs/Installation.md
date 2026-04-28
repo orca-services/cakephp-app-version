@@ -7,7 +7,7 @@
 
 ### CakePHP Version Support
 
-This version of the plugin supports CakePHP 4.x only.
+See the [version map](../README.md#compatibility).
 
 ### Installation via composer
 
