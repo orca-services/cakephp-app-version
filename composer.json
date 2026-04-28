@@ -3,12 +3,42 @@
     "description": "A CakePHP plugin for adding a configurable app version as an HTTP header",
     "keywords": ["CakePHP", "Plugin", "HTTP", "Headers", "Application version"],
     "type": "cakephp-plugin",
+    "homepage": "https://github.com/orca-services/cakephp-app-version",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Marc Würth",
+            "homepage": "https://github.com/ravage84/",
+            "email": "ravage@bluewin.ch",
+            "role": "Lead developer"
+        },
+        {
+            "name": "Fabian Arndt",
+            "homepage": "https://github.com/neluxx",
+            "role": "Developer"
+        },
+        {
+            "name": "Leon Schaub",
+            "homepage": "https://github.com/Staubiii",
+            "role": "Developer"
+        },
+        {
+            "name": "Other contributors",
+            "homepage": "https://github.com/orca-services/cakephp-app-version/graphs/contributors",
+            "role": "Contributors"
+        }
+    ],
+    "support": {
+        "email": "development@orca-services.ch",
+        "source": "https://github.com/orca-services/cakephp-app-version",
+        "issues": "https://github.com/orca-services/cakephp-app-version/issues"
+    },
     "require": {
-        "php": ">=7.4",
-        "cakephp/cakephp": "^4.0.0"
+        "php": "^7.4",
+        "cakephp/cakephp": "^4.0"
     },
     "require-dev": {
+        "cakephp/cakephp-codesniffer": "^4.0",
         "phpunit/phpunit": "^8.5 || ^9.3"
     },
     "autoload": {
@@ -23,7 +53,24 @@
         }
     },
     "scripts": {
+        "check": [
+            "@test",
+            "@cs-check"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "test": "phpunit",
-        "test-coverage": "phpunit  --coverage-html build/coverage"
+        "test-coverage": "phpunit --coverage-html build/coverage"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "audit": {
+            "ignore": {
+                "CVE-2023-29530": "PHP Version >=8.0 is needed for a secure version of laminas/diactoros"
+            }
+        }
     }
 }
