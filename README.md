@@ -4,10 +4,10 @@ A CakePHP plugin for adding a configurable app version as an HTTP header.
 
 ## Compatibility
 
-| Plugin Version | CakePHP Compatibility | Branch              | Status    |
-|----------------|-----------------------|---------------------| --------- |
-| 1.x            | 5.x                   | cakephp-5.x-upgrade | Supported |
-| 0.x            | 4.x                   | master              | Supported |
+| Plugin Version | CakePHP Compatibility | Branch      | Status    |
+|----------------|-----------------------|-------------| --------- |
+| 1.x            | 5.x                   | cakephp-5.x | Supported |
+| 0.x            | 4.x                   | cakephp-4.x | Supported |
 
 Note:
 - There is no plugin version for CakePHP 3.x.
