@@ -23,10 +23,14 @@ class AppVersionHeaderMiddlewareTest extends TestCase
      */
     protected AppVersionHeaderMiddleware $appVersionHeader;
 
-    /** @var ServerRequestInterface|ServerRequest  */
+    /**
+     * @var ServerRequestInterface|ServerRequest
+     */
     protected ServerRequestInterface $request;
 
-    /** @var RequestHandlerInterface|TestRequestHandler  */
+    /**
+     * @var RequestHandlerInterface|TestRequestHandler
+     */
     protected RequestHandlerInterface $handler;
 
     /**
