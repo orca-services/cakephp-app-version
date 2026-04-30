@@ -34,12 +34,12 @@
         "issues": "https://github.com/orca-services/cakephp-app-version/issues"
     },
     "require": {
-        "php": "^7.4",
-        "cakephp/cakephp": "^4.0"
+        "php": "^8.2",
+        "cakephp/cakephp": "^5.0.11"
     },
     "require-dev": {
-        "cakephp/cakephp-codesniffer": "^4.0",
-        "phpunit/phpunit": "^8.5 || ^9.3"
+        "cakephp/cakephp-codesniffer": "^5.0",
+        "phpunit/phpunit": "^10.0"
     },
     "autoload": {
         "psr-4": {
@@ -66,11 +66,6 @@
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
-        },
-        "audit": {
-            "ignore": {
-                "CVE-2023-29530": "PHP Version >=8.0 is needed for a secure version of laminas/diactoros"
-            }
         }
     }
 }
