@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name=""CakePHP AppVersion Plugi" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="CakePHP AppVersion Plugin" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
     <description>The coding standard for ORCA Services App Version Plugin.</description>
 
     <file>./src</file>
@@ -9,12 +9,11 @@
     <arg name="parallel" value="75"/>
     <arg value="p"/>
 
-    <rule ref="./vendor/cakephp/cakephp-codesniffer/CakePHP/ruleset.xml">
+    <rule ref="CakePHP">
         <!-- Exclude unwanted sniffs -->
         <exclude name="Generic.Commenting.Todo"/>
 
         <!-- Suppress: FQCNs in PHPDoc should use short names via use statements -->
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
     </rule>
-
 </ruleset>
