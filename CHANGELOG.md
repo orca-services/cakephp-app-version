@@ -9,9 +9,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Improved overall documentation
 
 ### Dependencies
-- cakephp/cakephp installed in version 4.6.3
-- cakephp/cakephp-codesniffer installed in version 4.7.1
-- phpunit/phpunit installed in version 8.5.52
+- cakephp/cakephp updated from 5.3.0 to 5.3.4 patch
+- phpunit/phpunit updated from 10.5.60 to 10.5.63 patch
+- cakephp/cakephp-codesniffer installed in version 5.3.0
 
 ### Fixed
 
