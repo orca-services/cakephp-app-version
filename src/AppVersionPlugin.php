@@ -42,11 +42,11 @@ class AppVersionPlugin extends BasePlugin
         $routes->plugin(
             'AppVersion',
             ['path' => '/app-version'],
-            function (RouteBuilder $builder) {
+            function (RouteBuilder $builder): void {
                 // Add custom routes here
 
                 $builder->fallbacks();
-            }
+            },
         );
         parent::routes($routes);
     }
