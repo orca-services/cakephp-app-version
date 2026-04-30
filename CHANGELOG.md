@@ -7,14 +7,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Improved overall documentation
+- Drop support for PHPUnit 8.x
 
 ### Dependencies
-- cakephp/cakephp installed in version 4.6.3
 - cakephp/cakephp-codesniffer installed in version 4.7.1
-- phpunit/phpunit installed in version 8.5.52
+- phpunit/phpunit updated from 9.6.31 to 9.6.34 patch
 
 ### Fixed
 
 ## [0.1.0](https://github.com/orca-services/cakephp-app-version/releases/tag/0.1.0) - 2024-10-03
 ### Added
 - Initial functionality with configurable app version HTTP header adding middleware
+
+### Dependencies
+- cakephp/chronos installed in version 2.4.5
+- cakephp/cakephp installed in version 4.6.3
+- phpunit/phpunit installed in version 9.6.31
