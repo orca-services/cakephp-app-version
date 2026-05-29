@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Improved overall documentation
 - Drop support for PHPUnit 8.x
+- Exclude repository-only files from distribution archives [#7](https://github.com/orca-services/cakephp-app-version/issues/7)
 
 ### Dependencies
 - cakephp/cakephp-codesniffer installed in version 4.7.1
