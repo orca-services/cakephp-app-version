@@ -7,13 +7,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+
+### Dependencies
+
+### Fixed
+
+## [0.1.2](https://github.com/orca-services/cakephp-app-version/releases/tag/0.1.2) - 2026-08-17
+### Changed
 - Allow PHP versions greater than 7.4
 
 ### Dependencies
 - phpunit/phpunit updated from 9.6.34 to 9.6.36 patch
 - cakephp/cakephp updated from 4.6.3 to 4.6.5 patch
-
-### Fixed
 
 ## [0.1.1](https://github.com/orca-services/cakephp-app-version/releases/tag/0.1.1) - 2026-06-25
 
