@@ -5,14 +5,13 @@ namespace AppVersion\View\Helper;
 
 use AppVersion\AppVersion;
 use Cake\View\Helper;
-use Cake\View\Helper\HtmlHelper;
 
 /**
  * AppVersion helper
  *
  * Makes the app version available in templates, e.g. for a footer or an HTML meta tag.
  *
- * @property HtmlHelper $Html
+ * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class AppVersionHelper extends Helper
 {
