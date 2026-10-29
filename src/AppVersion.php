@@ -40,7 +40,6 @@ class AppVersion
         ],
         'cli' => [
             'enabled' => true,
-            'banner' => false,
         ],
     ];
 

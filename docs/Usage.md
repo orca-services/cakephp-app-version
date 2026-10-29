@@ -10,7 +10,6 @@ All of them read the same `App.version` value (see [Configuration](Configuration
 | [HTML meta tag](#html-meta-tag)                 | `<meta name="app-version" content="1.2.3">` | No                 |
 | [Version endpoint](#version-endpoint)           | `GET /version` → `{"version":"1.2.3"}`      | No                 |
 | [CLI command](#cli-command)                     | `bin/cake app_version`                      | Yes                |
-| [CLI banner](#cli-banner)                       | Version line before every CLI command       | No                 |
 
 ## HTTP response header
 
@@ -126,23 +125,6 @@ PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3
 ```
 
 The command can be disabled with `AppVersion.cli.enabled = false`.
-
-## CLI banner
-
-When `AppVersion.cli.banner` is `true`, every CLI command prints the PHP version, the CakePHP version,
-the debug mode and the app version as its first line:
-
-```
-$ bin/cake migrations status
-PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3
-using migration table cake_migrations
-...
-```
-
-The line is written to stderr, so the regular output of commands can still be piped or parsed.
-It is not printed with `--quiet`.
-
-Note: The plugin's `bootstrap` hook must be enabled (it is by default when loading the plugin).
 
 ---
 

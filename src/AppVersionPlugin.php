@@ -4,11 +4,8 @@ declare(strict_types=1);
 namespace AppVersion;
 
 use AppVersion\Command\AppVersionCommand;
-use AppVersion\Event\CliBannerListener;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
-use Cake\Core\PluginApplicationInterface;
-use Cake\Event\EventManager;
 use Cake\Routing\RouteBuilder;
 
 /**
@@ -16,21 +13,6 @@ use Cake\Routing\RouteBuilder;
  */
 class AppVersionPlugin extends BasePlugin
 {
-    /**
-     * Register the CLI banner listener.
-     *
-     * The listener only prints something if `AppVersion.cli.banner` is enabled.
-     *
-     * @param PluginApplicationInterface $app The host application
-     * @return void
-     */
-    public function bootstrap(PluginApplicationInterface $app): void
-    {
-        if (PHP_SAPI === 'cli') {
-            EventManager::instance()->on(new CliBannerListener());
-        }
-    }
-
     /**
      * Connect the version endpoint, if enabled.
      *

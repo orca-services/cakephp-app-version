@@ -9,7 +9,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - `AppVersion` view helper with `get()` and `meta()` (HTML meta tag, disabled by default)
     - Optional JSON version endpoint, e.g. `GET /version` (disabled by default, configurable path and middleware)
     - `bin/cake app_version` CLI command
-    - Optional banner with the PHP, CakePHP and app version before every CLI command (disabled by default)
 
 ### Changed
 

@@ -64,7 +64,6 @@ class AppVersionTest extends TestCase
         self::assertSame('/version', AppVersion::config('endpoint.path'));
         self::assertSame([], AppVersion::config('endpoint.middleware'));
         self::assertTrue(AppVersion::config('cli.enabled'));
-        self::assertFalse(AppVersion::config('cli.banner'));
         self::assertNull(AppVersion::config('does.not.exist'));
     }
 

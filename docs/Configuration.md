@@ -57,7 +57,6 @@ These are all keys with their defaults:
     // CLI
     'cli' => [
         'enabled' => true,  // the `bin/cake app_version` command
-        'banner'  => false, // version line before every CLI command
     ],
 ],
 ```
@@ -69,8 +68,7 @@ These are all keys with their defaults:
 | `AppVersion.endpoint.enabled`    | Connect the JSON version endpoint                                          | `false`         |
 | `AppVersion.endpoint.path`       | The path of the endpoint                                                   | `"/version"`    |
 | `AppVersion.endpoint.middleware` | Names of route middleware to apply to the endpoint, e.g. to restrict it    | `[]`            |
-| `AppVersion.cli.enabled`         | Register the `bin/cake app_version` command (and allow the banner)         | `true`          |
-| `AppVersion.cli.banner`          | Print PHP, CakePHP and app version before every CLI command (to stderr)    | `false`         |
+| `AppVersion.cli.enabled`         | Register the `bin/cake app_version` command                                | `true`          |
 
 ### Security considerations
 
