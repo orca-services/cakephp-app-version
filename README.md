@@ -1,15 +1,17 @@
 # CakePHP App Version Plugin
 
-A CakePHP plugin for adding a configurable app version as an HTTP header.
+A CakePHP plugin for exposing a configurable app version as an HTTP header, in views (helper, meta tag), via a JSON
+endpoint and on the CLI.
 
 ## Compatibility
 
 | Plugin Version | CakePHP Compatibility | Branch      | Status    |
-|----------------|-----------------------|-------------| --------- |
+|----------------|-----------------------|-------------|-----------|
 | 1.x            | 5.x                   | cakephp-5.x | Supported |
 | 0.x            | 4.x                   | cakephp-4.x | Supported |
 
 Note:
+
 - There is no plugin version for CakePHP 3.x.
 - Previous versions of the plugin that supported previous versions of CakePHP are not supported anymore.
 

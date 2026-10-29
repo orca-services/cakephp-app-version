@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace AppVersion;
 
+use AppVersion\Command\AppVersionCommand;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
-use Cake\Core\ContainerInterface;
-use Cake\Core\PluginApplicationInterface;
-use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
 
 /**
@@ -16,78 +14,48 @@ use Cake\Routing\RouteBuilder;
 class AppVersionPlugin extends BasePlugin
 {
     /**
-     * Load all the plugin configuration and bootstrap logic.
+     * Connect the version endpoint, if enabled.
      *
-     * The host application is provided as an argument. This allows you to load
-     * additional plugin dependencies, or attach events.
+     * The endpoint is only connected if `AppVersion.endpoint.enabled` is true.
+     * Its path is configured with `AppVersion.endpoint.path` (default `/version`).
+     * Middleware registered in the application routes can be applied to it
+     * with `AppVersion.endpoint.middleware`, e.g. to restrict access.
      *
-     * @param \Cake\Core\PluginApplicationInterface $app The host application
-     * @return void
-     */
-    public function bootstrap(PluginApplicationInterface $app): void
-    {
-    }
-
-    /**
-     * Add routes for the plugin.
-     *
-     * If your plugin has many routes and you would like to isolate them into a separate file,
-     * you can create `$plugin/config/routes.php` and delete this method.
-     *
-     * @param \Cake\Routing\RouteBuilder $routes The route builder to update.
+     * @param RouteBuilder $routes The route builder to update.
      * @return void
      */
     public function routes(RouteBuilder $routes): void
     {
-        $routes->plugin(
-            'AppVersion',
-            ['path' => '/app-version'],
-            function (RouteBuilder $builder): void {
-                // Add custom routes here
+        if (AppVersion::isEnabled('endpoint')) {
+            $path = '/' . ltrim((string)AppVersion::config('endpoint.path'), '/');
 
-                $builder->fallbacks();
-            },
-        );
+            $route = $routes->get(
+                $path,
+                ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'index'],
+                'AppVersion.version',
+            );
+
+            $middleware = (array)AppVersion::config('endpoint.middleware');
+            if ($middleware !== []) {
+                $route->setMiddleware($middleware);
+            }
+        }
+
         parent::routes($routes);
     }
 
     /**
-     * Add middleware for the plugin.
+     * Add the `app_version` command, if enabled.
      *
-     * @param \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to update.
-     * @return \Cake\Http\MiddlewareQueue
-     */
-    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
-    {
-        // Add your middlewares here
-
-        return $middlewareQueue;
-    }
-
-    /**
-     * Add commands for the plugin.
-     *
-     * @param \Cake\Console\CommandCollection $commands The command collection to update.
-     * @return \Cake\Console\CommandCollection
+     * @param CommandCollection $commands The command collection to update.
+     * @return CommandCollection
      */
     public function console(CommandCollection $commands): CommandCollection
     {
-        // Add your commands here
-
-        $commands = parent::console($commands);
+        if (AppVersion::isEnabled('cli')) {
+            $commands->add(AppVersionCommand::defaultName(), AppVersionCommand::class);
+        }
 
         return $commands;
-    }
-
-    /**
-     * Register application container services.
-     *
-     * @param \Cake\Core\ContainerInterface $container The Container to update.
-     * @return void
-     * @link https://book.cakephp.org/4/en/development/dependency-injection.html#dependency-injection
-     */
-    public function services(ContainerInterface $container): void
-    {
-        // Add your services here
     }
 }

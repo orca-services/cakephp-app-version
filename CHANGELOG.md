@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/orca-services/cakephp-app-version)
 
 ### Added
+- More ways to expose the app version, all reading `App.version` [#18](https://github.com/orca-services/cakephp-app-version/issues/18):
+    - `AppVersion` view helper with `get()` and `meta()` (HTML meta tag, disabled by default)
+    - Optional JSON version endpoint, e.g. `GET /version` (disabled by default, configurable path and middleware)
+    - `bin/cake app_version` CLI command
 
 ### Changed
 

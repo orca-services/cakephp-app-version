@@ -1,7 +1,15 @@
 {
     "name": "orca-services/cakephp-app-version",
-    "description": "A CakePHP plugin for adding a configurable app version as an HTTP header",
-    "keywords": ["CakePHP", "Plugin", "HTTP", "Headers", "Application version"],
+    "description": "A CakePHP plugin for exposing a configurable app version as an HTTP header, in views, via an endpoint and on the CLI",
+    "keywords": [
+        "CakePHP",
+        "Plugin",
+        "HTTP",
+        "Headers",
+        "Application version",
+        "View helper",
+        "CLI"
+    ],
     "type": "cakephp-plugin",
     "homepage": "https://github.com/orca-services/cakephp-app-version",
     "license": "MIT",
