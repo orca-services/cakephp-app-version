@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace AppVersion\Test\TestCase\Controller;
 
-use AppVersion\Controller\AppVersionController;
+use AppVersion\Controller\VersionController;
 use Cake\Core\Configure;
 use Cake\Http\Exception\MethodNotAllowedException;
 use Cake\Http\Exception\NotFoundException;
@@ -11,9 +11,9 @@ use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 
 /**
- * AppVersionController Test Case
+ * VersionController Test Case
  */
-class AppVersionControllerTest extends TestCase
+class VersionControllerTest extends TestCase
 {
     /**
      * @inheritDoc
@@ -30,20 +30,20 @@ class AppVersionControllerTest extends TestCase
      * Create the controller for a request
      *
      * @param string $method The HTTP method.
-     * @return AppVersionController
+     * @return VersionController
      */
-    protected function createController(string $method = 'GET'): AppVersionController
+    protected function createController(string $method = 'GET'): VersionController
     {
         $request = new ServerRequest(['environment' => ['REQUEST_METHOD' => $method]]);
 
-        return new AppVersionController($request);
+        return new VersionController($request);
     }
 
     /**
      * Test index method
      *
      * @return void
-     * @uses AppVersionController::index
+     * @uses VersionController::index
      */
     public function testIndex(): void
     {
@@ -61,7 +61,7 @@ class AppVersionControllerTest extends TestCase
      * Test index method when the app version is not set
      *
      * @return void
-     * @uses AppVersionController::index
+     * @uses VersionController::index
      */
     public function testIndexAppVersionNotSet(): void
     {
@@ -77,7 +77,7 @@ class AppVersionControllerTest extends TestCase
      * Test index method is not reachable while disabled
      *
      * @return void
-     * @uses AppVersionController::index
+     * @uses VersionController::index
      */
     public function testIndexDisabled(): void
     {
@@ -90,7 +90,7 @@ class AppVersionControllerTest extends TestCase
      * Test index method only allows reading
      *
      * @return void
-     * @uses AppVersionController::index
+     * @uses VersionController::index
      */
     public function testIndexPostNotAllowed(): void
     {

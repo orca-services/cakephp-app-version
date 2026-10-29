@@ -13,7 +13,7 @@ use Cake\Http\Response;
  *
  * Serves the app version as JSON, e.g. `{"version":"1.2.3"}`.
  */
-class AppVersionController extends Controller
+class VersionController extends Controller
 {
     /**
      * Return the app version as JSON.
