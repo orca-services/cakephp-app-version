@@ -83,7 +83,7 @@ class AppVersionPluginTest extends TestCase
         Configure::write('AppVersion.endpoint.enabled', true);
         $this->loadPluginRoutes();
 
-        $params = $this->parse('/version');
+        $params = $this->parse('/app-version');
 
         self::assertSame('AppVersion', $params['plugin']);
         self::assertSame('Version', $params['controller']);
