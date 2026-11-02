@@ -1,6 +1,7 @@
 # Usage
 
 Once the plugin is installed and loaded (see [Installation](Installation.md)), the app version can be exposed in several ways.
+
 All of them read the same `App.version` value (see [Configuration](Configuration.md)).
 
 | Output                                          | Example                                     | Enabled by default |

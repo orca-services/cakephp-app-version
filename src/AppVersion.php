@@ -52,7 +52,7 @@ class AppVersion
     {
         $version = Configure::read('App.version');
 
-        if ($version === null || $version === '' || !is_scalar($version)) {
+        if (!$version || !is_scalar($version)) {
             return self::UNKNOWN;
         }
 
