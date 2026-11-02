@@ -35,7 +35,7 @@ class AppVersion
         ],
         'endpoint' => [
             'enabled' => false,
-            'path' => '/version',
+            'path' => '/app-version',
             'middleware' => [],
         ],
         'cli' => [
