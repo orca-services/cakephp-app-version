@@ -19,7 +19,7 @@ Set them in `config/app.php` (or `config/app_local.php`):
 ],
 ```
 
-With the [header middleware](Usage.md#http-response-header) this will produce the HTTP response header:
+With the [header middleware](Usage.md#http-response-header) this will add a HTTP response header:
 
 ```
 Acme-App-Version: 1.2.3
