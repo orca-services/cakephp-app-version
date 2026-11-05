@@ -32,6 +32,6 @@ class VersionController extends Controller
         return $this->response
             ->withType('application/json')
             ->withHeader('Cache-Control', 'no-store')
-            ->withStringBody((string)json_encode(['version' => AppVersion::get()]));
+            ->withStringBody((string)json_encode(['app-version' => AppVersion::get()]));
     }
 }

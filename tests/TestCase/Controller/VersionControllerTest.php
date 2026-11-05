@@ -54,7 +54,7 @@ class VersionControllerTest extends TestCase
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('application/json', $response->getType());
         self::assertSame('no-store', $response->getHeaderLine('Cache-Control'));
-        self::assertSame('{"version":"1.2.3"}', (string)$response->getBody());
+        self::assertSame('{"app-version":"1.2.3"}', (string)$response->getBody());
     }
 
     /**
@@ -70,7 +70,7 @@ class VersionControllerTest extends TestCase
 
         $response = $this->createController()->index();
 
-        self::assertSame('{"version":"Unknown"}', (string)$response->getBody());
+        self::assertSame('{"app-version":"Unknown"}', (string)$response->getBody());
     }
 
     /**
