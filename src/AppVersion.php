@@ -30,7 +30,6 @@ class AppVersion
      */
     public const DEFAULTS = [
         'meta' => [
-            'enabled' => false,
             'name' => 'app-version',
         ],
         'endpoint' => [
@@ -73,7 +72,7 @@ class AppVersion
     /**
      * Check whether an output option is enabled.
      *
-     * @param string $output The output option, one of `meta`, `endpoint` or `cli`.
+     * @param string $output The output option, one of `endpoint` or `cli`.
      * @return bool
      */
     public static function isEnabled(string $output): bool

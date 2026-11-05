@@ -42,10 +42,6 @@ class AppVersionHelper extends Helper
      */
     public function meta(array $options = []): ?string
     {
-        if (!AppVersion::isEnabled('meta')) {
-            return '';
-        }
-
         $name = (string)AppVersion::config('meta.name');
 
         return $this->Html->meta(['name' => $name, 'content' => $this->get()], null, $options);

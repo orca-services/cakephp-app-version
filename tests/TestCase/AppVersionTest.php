@@ -58,7 +58,6 @@ class AppVersionTest extends TestCase
      */
     public function testConfigDefaults(): void
     {
-        self::assertFalse(AppVersion::config('meta.enabled'));
         self::assertSame('app-version', AppVersion::config('meta.name'));
         self::assertFalse(AppVersion::config('endpoint.enabled'));
         self::assertSame('/app-version', AppVersion::config('endpoint.path'));
@@ -80,6 +79,5 @@ class AppVersionTest extends TestCase
 
         self::assertTrue(AppVersion::isEnabled('endpoint'));
         self::assertSame('/status/version', AppVersion::config('endpoint.path'));
-        self::assertFalse(AppVersion::isEnabled('meta'));
     }
 }

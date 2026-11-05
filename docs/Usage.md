@@ -8,7 +8,7 @@ All of them read the same `App.version` value (see [Configuration](Configuration
 |-------------------------------------------------|---------------------------------------------|--------------------|
 | [HTTP response header](#http-response-header)   | `X-App-Version: 1.2.3`                      | When added         |
 | [View helper](#view-helper)                     | `$this->AppVersion->get()`                  | When loaded        |
-| [HTML meta tag](#html-meta-tag)                 | `<meta name="app-version" content="1.2.3">` | No                 |
+| [HTML meta tag](#html-meta-tag)                 | `<meta name="app-version" content="1.2.3">` | Yes                |
 | [Version endpoint](#version-endpoint)           | `GET /version` → `{"version":"1.2.3"}`      | No                 |
 | [CLI command](#cli-command)                     | `bin/cake app_version`                      | Yes                |
 
@@ -77,8 +77,7 @@ This renders:
 <meta name="app-version" content="1.2.3">
 ```
 
-The tag is only rendered when `AppVersion.meta.enabled` is `true`, so you can keep the call in your layout
-and switch the tag on or off per environment. The name can be changed with `AppVersion.meta.name`.
+The name can be changed with `AppVersion.meta.name`.
 
 To append it to the `meta` view block instead, pass `['block' => true]`.
 

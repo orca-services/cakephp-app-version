@@ -45,7 +45,6 @@ These are all keys with their defaults:
 'AppVersion' => [
     // HTML meta tag rendered by $this->AppVersion->meta()
     'meta' => [
-        'enabled' => false,
         'name'    => 'app-version',
     ],
     // JSON endpoint, e.g. GET /version → {"version":"1.2.3"}
@@ -63,7 +62,6 @@ These are all keys with their defaults:
 
 | Key                              | Purpose                                                                    | Default         |
 |----------------------------------|----------------------------------------------------------------------------|-----------------|
-| `AppVersion.meta.enabled`        | Render the HTML meta tag                                                   | `false`         |
 | `AppVersion.meta.name`           | The `name` attribute of the meta tag                                       | `"app-version"` |
 | `AppVersion.endpoint.enabled`    | Connect the JSON version endpoint                                          | `false`         |
 | `AppVersion.endpoint.path`       | The path of the endpoint                                                   | `"/version"`    |
@@ -73,14 +71,13 @@ These are all keys with their defaults:
 ### Security considerations
 
 Exposing the exact version publicly can help attackers to fingerprint your app.
-That is why the outputs reachable from outside the server (meta tag and endpoint) are disabled by default.
+That is why the outputs reachable from outside the server (endpoint) are disabled by default.
 
 Enable them only where you need them, e.g. per environment in `config/app_local.php`:
 
 ```php
 // config/app_local.php on staging
 'AppVersion' => [
-    'meta'     => ['enabled' => true],
     'endpoint' => ['enabled' => true],
 ],
 ```

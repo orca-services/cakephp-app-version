@@ -54,17 +54,6 @@ class AppVersionHelperTest extends TestCase
     }
 
     /**
-     * Test meta method is disabled by default
-     *
-     * @return void
-     * @uses AppVersionHelper::meta
-     */
-    public function testMetaDisabledByDefault(): void
-    {
-        self::assertSame('', $this->AppVersion->meta());
-    }
-
-    /**
      * Test meta method when enabled
      *
      * @return void
@@ -72,8 +61,6 @@ class AppVersionHelperTest extends TestCase
      */
     public function testMeta(): void
     {
-        Configure::write('AppVersion.meta.enabled', true);
-
         self::assertSame('<meta name="app-version" content="1.2.3">', $this->AppVersion->meta());
     }
 
@@ -85,7 +72,7 @@ class AppVersionHelperTest extends TestCase
      */
     public function testMetaCustomNameAndEscaping(): void
     {
-        Configure::write('AppVersion.meta', ['enabled' => true, 'name' => 'acme-version']);
+        Configure::write('AppVersion.meta.name', 'acme-version');
         Configure::write('App.version', '1.2.3"><script>');
 
         self::assertSame(
@@ -102,8 +89,6 @@ class AppVersionHelperTest extends TestCase
      */
     public function testMetaBlock(): void
     {
-        Configure::write('AppVersion.meta.enabled', true);
-
         self::assertNull($this->AppVersion->meta(['block' => true]));
         self::assertSame('<meta name="app-version" content="1.2.3">', $this->view->fetch('meta'));
     }
