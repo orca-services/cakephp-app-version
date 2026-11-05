@@ -3,7 +3,7 @@
 ## App version
 
 All outputs of the plugin read the version from CakePHP's `Configure` registry.
-`App.version` is the single source of truth:
+`App.version` is the **single source of truth**:
 
 | Key                 | Purpose                               | Default     |
 |---------------------|---------------------------------------|-------------|
