@@ -5,33 +5,46 @@ namespace AppVersion\Controller;
 
 use AppVersion\AppVersion;
 use Cake\Controller\Controller;
-use Cake\Http\Exception\NotFoundException;
-use Cake\Http\Response;
+use Cake\View\JsonView;
 
 /**
  * App Version controller
  *
- * Serves the app version as JSON, e.g. `{"version":"1.2.3"}`.
+ * Serves the app version depending on the requested file extension.
+ * This controller is only reachable if the application connects its route.
  */
 class VersionController extends Controller
 {
     /**
-     * Return the app version as JSON.
+     * View classes by file extension. Requests without a known extension are rendered as HTML.
      *
-     * @return Response
-     * @throws NotFoundException If the endpoint is disabled.
+     * @var array<string, class-string<\Cake\View\View>>
      */
-    public function index(): Response
-    {
-        if (!AppVersion::isEnabled('endpoint')) {
-            throw new NotFoundException();
-        }
+    protected const VIEW_CLASSES = [
+        'json' => JsonView::class,
+    ];
 
+    /**
+     * Show the app version.
+     *
+     * @return void
+     */
+    public function index(): void
+    {
         $this->request->allowMethod(['get']);
 
-        return $this->response
-            ->withType('application/json')
-            ->withHeader('Cache-Control', 'no-store')
-            ->withStringBody((string)json_encode(['app-version' => AppVersion::get()]));
+        $this->response = $this->response->withHeader('Cache-Control', 'no-store');
+        $this->set('appVersion', AppVersion::get());
+
+        $extension = (string)$this->request->getParam('_ext');
+        if (isset(static::VIEW_CLASSES[$extension])) {
+            $this->viewBuilder()
+                ->setClassName(static::VIEW_CLASSES[$extension])
+                ->setOption('serialize', ['app-version' => 'appVersion']);
+
+            return;
+        }
+
+        $this->viewBuilder()->disableAutoLayout();
     }
 }
