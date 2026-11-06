@@ -4,13 +4,13 @@ Once the plugin is installed and loaded (see [Installation](Installation.md)), t
 
 All of them read the same `App.version` value (see [Configuration](Configuration.md)).
 
-| Output                                          | Example                                     | Enabled by default |
-|-------------------------------------------------|---------------------------------------------|--------------------|
-| [HTTP response header](#http-response-header)   | `X-App-Version: 1.2.3`                      | When added         |
-| [View helper](#view-helper)                     | `$this->AppVersion->get()`                  | When loaded        |
-| [HTML meta tag](#html-meta-tag)                 | `<meta name="app-version" content="1.2.3">` | Yes                |
-| [Version endpoint](#version-endpoint)           | `GET /version` → `{"version":"1.2.3"}`      | No                 |
-| [CLI command](#cli-command)                     | `bin/cake app_version`                      | Yes                |
+| Output                                        | Example                                             | Available                                           |
+|-----------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|
+| [HTTP response header](#http-response-header) | `X-App-Version: 1.2.3`                              | When the middleware is added                        |
+| [View helper](#view-helper)                   | `$this->AppVersion->get()`                          | When the helper is loaded                           |
+| [HTML meta tag](#html-meta-tag)               | `<meta name="app-version" content="1.2.3">`         | When `meta()` is used in a template or layout       |
+| [Version endpoint](#version-endpoint)         | `GET /app-version.json` → `{"app-version":"1.2.3"}` | When you connect its route                          |
+| [CLI command](#cli-command)                   | `bin/cake app_version`                              | Always (unless `AppVersion.cli.enabled` is `false`) |
 
 ## HTTP response header
 
@@ -56,10 +56,12 @@ Then use it in your templates, e.g. in a footer:
 ```php
 <footer>Version <?= h($this->AppVersion->get()) ?></footer>
 
-<?= $this->Html->script('app.js?v=' . rawurlencode($this->AppVersion->get())) ?>
+<?= $this->Html->script('app.js?v=' . $this->AppVersion->getUrlEncoded()) ?>
 ```
 
-`get()` returns `"Unknown"` if `App.version` is not set.
+`get()` returns the raw version, escape it with `h()` when printing it in HTML.
+`getUrlEncoded()` returns the URL encoded version, e.g. for cache busting query strings.
+Both return `"Unknown"` if `App.version` is not set.
 
 ## HTML meta tag
 
@@ -89,28 +91,56 @@ document.querySelector('meta[name="app-version"]')?.content;
 
 ## Version endpoint
 
-Enable the endpoint in your configuration:
+The plugin does not connect any route on its own, so the endpoint is only available if you connect it
+in your application's `config/routes.php`:
 
 ```php
-'AppVersion' => [
-    'endpoint' => ['enabled' => true],
-],
+$routes->scope('/', function (RouteBuilder $builder): void {
+    $builder->get(
+        '/app-version',
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'index'],
+        'AppVersion.version',
+    )->setExtensions(['json', 'html']);
+});
 ```
 
-The plugin then connects a `GET` route (named `AppVersion.version`) that returns the version as JSON:
+You are free to choose the path, and you decide in which environments the route is connected.
+
+The response format depends on the file extension:
 
 ```
-$ curl https://example.com/version
-{"version":"1.2.3"}
+$ curl https://example.com/app-version.json
+{"app-version":"1.2.3"}
+
+$ curl https://example.com/app-version.html
+$ curl https://example.com/app-version
+<!DOCTYPE html> ... App version: <span class="app-version">1.2.3</span> ...
 ```
+
+Without an extension, HTML is returned. The HTML template can be overridden in your application with
+`templates/plugin/AppVersion/Version/index.php`.
 
 This lets deploy pipelines, smoke tests, uptime monitors and load balancers verify which release is live.
 The response is sent with `Cache-Control: no-store`.
 
-The path can be changed with `AppVersion.endpoint.path` and access can be restricted with route middleware,
-see [Configuration](Configuration.md#security-considerations).
+Only the app version is returned, deliberately not the PHP or CakePHP version, see
+[Security considerations](Configuration.md#security-considerations).
 
-Note: The plugin's `routes` hook must be enabled (it is by default when loading the plugin).
+To restrict access, apply route middleware the same way as for any other route of your application:
+
+```php
+$routes->scope('/', function (RouteBuilder $builder): void {
+    $builder->registerMiddleware('versionAuth', new MyIpAllowListMiddleware());
+
+    $builder->get(
+        '/app-version',
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'index'],
+        'AppVersion.version',
+    )
+        ->setExtensions(['json', 'html'])
+        ->setMiddleware(['versionAuth']);
+});
+```
 
 ## CLI command
 
