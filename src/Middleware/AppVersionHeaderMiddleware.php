@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AppVersion\Middleware;
 
+use AppVersion\AppVersion;
 use Cake\Core\Configure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,7 +36,7 @@ class AppVersionHeaderMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
 
         $appVersionPrefix = Configure::read('App.versionPrefix', 'X');
-        $appVersion = Configure::read('App.version', 'Unknown');
+        $appVersion = AppVersion::get();
 
         $response = $response->withHeader($appVersionPrefix . '-App-Version', $appVersion);
 
