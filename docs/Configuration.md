@@ -36,33 +36,7 @@ Configure::write(
 
 Make sure this runs before the middleware queue is built.
 
-## Output options
-
-The additional output options are configured below the `AppVersion` key.
-These are all keys with their defaults:
-
-```php
-'AppVersion' => [
-    // HTML meta tag rendered by $this->AppVersion->meta()
-    'meta' => [
-        'name' => 'app-version',
-    ],
-    // CLI
-    'cli' => [
-        'enabled' => true,  // the `bin/cake app_version` command
-    ],
-],
-```
-
-| Key                      | Purpose                                     | Default         |
-|--------------------------|---------------------------------------------|-----------------|
-| `AppVersion.meta.name`   | The `name` attribute of the meta tag        | `"app-version"` |
-| `AppVersion.cli.enabled` | Register the `bin/cake app_version` command | `true`          |
-
-The [version endpoint](Usage.md#version-endpoint) has no configuration,
-it is enabled, placed and restricted by connecting its route in your application.
-
-### Security considerations
+## Security considerations
 
 Exposing the exact version publicly can help attackers to fingerprint your app.
 That is why the plugin never connects the version endpoint on its own.

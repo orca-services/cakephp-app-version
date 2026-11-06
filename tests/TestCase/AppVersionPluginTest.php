@@ -6,7 +6,6 @@ namespace AppVersion\Test\TestCase;
 use AppVersion\AppVersionPlugin;
 use AppVersion\Command\AppVersionCommand;
 use Cake\Console\CommandCollection;
-use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -14,16 +13,6 @@ use Cake\TestSuite\TestCase;
  */
 class AppVersionPluginTest extends TestCase
 {
-    /**
-     * @inheritDoc
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        Configure::delete('AppVersion');
-    }
-
     /**
      * Test the plugin does not connect routes on its own
      *
@@ -35,7 +24,7 @@ class AppVersionPluginTest extends TestCase
     }
 
     /**
-     * Test the command is added by default
+     * Test the command is added
      *
      * @return void
      * @uses AppVersionPlugin::console
@@ -46,20 +35,5 @@ class AppVersionPluginTest extends TestCase
 
         self::assertTrue($commands->has('app_version'));
         self::assertSame(AppVersionCommand::class, $commands->get('app_version'));
-    }
-
-    /**
-     * Test the command is not added if the CLI output is disabled
-     *
-     * @return void
-     * @uses AppVersionPlugin::console
-     */
-    public function testConsoleDisabled(): void
-    {
-        Configure::write('AppVersion.cli.enabled', false);
-
-        $commands = (new AppVersionPlugin())->console(new CommandCollection());
-
-        self::assertFalse($commands->has('app_version'));
     }
 }

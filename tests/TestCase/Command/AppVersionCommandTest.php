@@ -37,7 +37,6 @@ class AppVersionCommandTest extends TestCase
         parent::setUp();
 
         Configure::write('App.version', '1.2.3');
-        Configure::delete('AppVersion');
 
         $this->out = new StubConsoleOutput();
         $this->err = new StubConsoleOutput();

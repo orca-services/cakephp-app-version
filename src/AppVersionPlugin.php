@@ -20,16 +20,14 @@ class AppVersionPlugin extends BasePlugin
     protected bool $routesEnabled = false;
 
     /**
-     * Add the `app_version` command, if enabled.
+     * Add the `app_version` command.
      *
      * @param CommandCollection $commands The command collection to update.
      * @return CommandCollection
      */
     public function console(CommandCollection $commands): CommandCollection
     {
-        if (AppVersion::isEnabled('cli')) {
-            $commands->add(AppVersionCommand::defaultName(), AppVersionCommand::class);
-        }
+        $commands->add(AppVersionCommand::defaultName(), AppVersionCommand::class);
 
         return $commands;
     }

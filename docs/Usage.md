@@ -4,13 +4,13 @@ Once the plugin is installed and loaded (see [Installation](Installation.md)), t
 
 All of them read the same `App.version` value (see [Configuration](Configuration.md)).
 
-| Output                                        | Example                                             | Available                                           |
-|-----------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|
-| [HTTP response header](#http-response-header) | `X-App-Version: 1.2.3`                              | When the middleware is added                        |
-| [View helper](#view-helper)                   | `$this->AppVersion->get()`                          | When the helper is loaded                           |
-| [HTML meta tag](#html-meta-tag)               | `<meta name="app-version" content="1.2.3">`         | When `meta()` is used in a template or layout       |
-| [Version endpoint](#version-endpoint)         | `GET /app-version.json` → `{"app-version":"1.2.3"}` | When you connect its route                          |
-| [CLI command](#cli-command)                   | `bin/cake app_version`                              | Always (unless `AppVersion.cli.enabled` is `false`) |
+| Output                                        | Example                                             | Available                           |
+|-----------------------------------------------|-----------------------------------------------------|-------------------------------------|
+| [HTTP response header](#http-response-header) | `X-App-Version: 1.2.3`                              | When the middleware is added        |
+| [View helper](#view-helper)                   | `$this->AppVersion->get()`                          | When the helper is loaded           |
+| [HTML meta tag](#html-meta-tag)               | `<meta name="app-version" content="1.2.3">`         | When `meta()` is used in a template |
+| [Version endpoint](#version-endpoint)         | `GET /app-version.json` → `{"app-version":"1.2.3"}` | When you connect its route          |
+| [CLI command](#cli-command)                   | `bin/cake app_version`                              | Always                              |
 
 ## HTTP response header
 
@@ -78,8 +78,6 @@ This renders:
 ```html
 <meta name="app-version" content="1.2.3">
 ```
-
-The name can be changed with `AppVersion.meta.name`.
 
 To append it to the `meta` view block instead, pass `['block' => true]`.
 
@@ -153,8 +151,6 @@ $ bin/cake app_version
 $ bin/cake app_version --full
 PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3
 ```
-
-The command can be disabled with `AppVersion.cli.enabled = false`.
 
 ---
 

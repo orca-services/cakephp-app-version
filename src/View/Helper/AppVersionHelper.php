@@ -16,6 +16,13 @@ use Cake\View\Helper;
 class AppVersionHelper extends Helper
 {
     /**
+     * The `name` attribute of the meta tag.
+     *
+     * @var string
+     */
+    public const META_NAME = 'app-version';
+
+    /**
      * Helpers used by this helper
      *
      * @var array
@@ -52,8 +59,6 @@ class AppVersionHelper extends Helper
      */
     public function meta(array $options = []): ?string
     {
-        $name = (string)AppVersion::config('meta.name');
-
-        return $this->Html->meta(['name' => $name, 'content' => $this->get()], null, $options);
+        return $this->Html->meta(['name' => static::META_NAME, 'content' => $this->get()], null, $options);
     }
 }

@@ -20,7 +20,6 @@ class AppVersionTest extends TestCase
         parent::setUp();
 
         Configure::delete('App.version');
-        Configure::delete('AppVersion');
     }
 
     /**
@@ -51,33 +50,5 @@ class AppVersionTest extends TestCase
 
         Configure::write('App.version', ['1.2.3']);
         self::assertSame('Unknown', AppVersion::get());
-    }
-
-    /**
-     * Test config method returns the defaults
-     *
-     * @return void
-     * @uses AppVersion::config
-     */
-    public function testConfigDefaults(): void
-    {
-        self::assertSame('app-version', AppVersion::config('meta.name'));
-        self::assertTrue(AppVersion::config('cli.enabled'));
-        self::assertNull(AppVersion::config('does.not.exist'));
-    }
-
-    /**
-     * Test config method returns configured values
-     *
-     * @return void
-     * @uses AppVersion::config
-     * @uses AppVersion::isEnabled
-     */
-    public function testConfigConfigured(): void
-    {
-        Configure::write('AppVersion', ['meta' => ['name' => 'acme-version'], 'cli' => ['enabled' => false]]);
-
-        self::assertSame('acme-version', AppVersion::config('meta.name'));
-        self::assertFalse(AppVersion::isEnabled('cli'));
     }
 }

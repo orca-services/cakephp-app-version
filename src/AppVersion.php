@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace AppVersion;
 
 use Cake\Core\Configure;
-use Cake\Utility\Hash;
 
 /**
  * AppVersion
  *
- * Central access point for the app version and the plugin configuration.
+ * Central access point for the app version.
  */
 class AppVersion
 {
@@ -19,20 +18,6 @@ class AppVersion
      * @var string
      */
     public const UNKNOWN = 'Unknown';
-
-    /**
-     * Default configuration of the output options.
-     *
-     * @var array<string, array<string, mixed>>
-     */
-    public const DEFAULTS = [
-        'meta' => [
-            'name' => 'app-version',
-        ],
-        'cli' => [
-            'enabled' => true,
-        ],
-    ];
 
     /**
      * Get the configured app version.
@@ -48,27 +33,5 @@ class AppVersion
         }
 
         return (string)$version;
-    }
-
-    /**
-     * Read a plugin configuration value, falling back to the plugin default.
-     *
-     * @param string $key The key below `AppVersion`, e.g. `endpoint.path`.
-     * @return mixed The configured value or the default.
-     */
-    public static function config(string $key): mixed
-    {
-        return Configure::read('AppVersion.' . $key, Hash::get(self::DEFAULTS, $key));
-    }
-
-    /**
-     * Check whether an output option is enabled.
-     *
-     * @param string $output The output option, one of `endpoint` or `cli`.
-     * @return bool
-     */
-    public static function isEnabled(string $output): bool
-    {
-        return (bool)self::config($output . '.enabled');
     }
 }

@@ -33,7 +33,6 @@ class AppVersionHelperTest extends TestCase
         parent::setUp();
 
         Configure::write('App.version', '1.2.3');
-        Configure::delete('AppVersion');
 
         $this->view = new View();
         $this->AppVersion = new AppVersionHelper($this->view);
@@ -82,18 +81,17 @@ class AppVersionHelperTest extends TestCase
     }
 
     /**
-     * Test meta method with a custom name and escaping
+     * Test meta method escapes the version
      *
      * @return void
      * @uses AppVersionHelper::meta
      */
-    public function testMetaCustomNameAndEscaping(): void
+    public function testMetaEscaping(): void
     {
-        Configure::write('AppVersion.meta.name', 'acme-version');
         Configure::write('App.version', '1.2.3"><script>');
 
         self::assertSame(
-            '<meta name="acme-version" content="1.2.3&quot;&gt;&lt;script&gt;">',
+            '<meta name="app-version" content="1.2.3&quot;&gt;&lt;script&gt;">',
             $this->AppVersion->meta(),
         );
     }

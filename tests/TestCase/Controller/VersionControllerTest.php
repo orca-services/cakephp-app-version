@@ -23,7 +23,6 @@ class VersionControllerTest extends TestCase
         parent::setUp();
 
         Configure::write('App.version', '1.2.3');
-        Configure::delete('AppVersion');
         $this->loadPlugins(['AppVersion' => ['path' => dirname(__DIR__, 3) . DS]]);
     }
 
