@@ -35,10 +35,20 @@ class AppVersionHelper extends Helper
     }
 
     /**
+     * Get the URL encoded app version.
+     *
+     * @return string The URL encoded app version or "Unknown" if it is not set.
+     */
+    public function getUrlEncoded(): string
+    {
+        return rawurlencode($this->get());
+    }
+
+    /**
      * Get an HTML meta tag containing the app version.
      *
      * @param array<string, mixed> $options Options passed to `HtmlHelper::meta()`
-     * @return string|null The meta tag, an empty string if disabled, or null if it was appended to a block.
+     * @return string|null The meta tag or null if it was appended to a block.
      */
     public function meta(array $options = []): ?string
     {

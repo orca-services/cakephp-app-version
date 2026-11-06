@@ -54,7 +54,24 @@ class AppVersionHelperTest extends TestCase
     }
 
     /**
-     * Test meta method when enabled
+     * Test getUrlEncoded method
+     *
+     * @return void
+     * @uses AppVersionHelper::getUrlEncoded
+     */
+    public function testGetUrlEncoded(): void
+    {
+        self::assertSame('1.2.3', $this->AppVersion->getUrlEncoded());
+
+        Configure::write('App.version', '1.2.3+build 42/a&b');
+        self::assertSame('1.2.3%2Bbuild%2042%2Fa%26b', $this->AppVersion->getUrlEncoded());
+
+        Configure::delete('App.version');
+        self::assertSame('Unknown', $this->AppVersion->getUrlEncoded());
+    }
+
+    /**
+     * Test meta method
      *
      * @return void
      * @uses AppVersionHelper::meta
