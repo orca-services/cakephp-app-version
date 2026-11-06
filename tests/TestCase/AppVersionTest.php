@@ -37,7 +37,7 @@ class AppVersionTest extends TestCase
     }
 
     /**
-     * Test get method when the app version is not set or empty
+     * Test get method when the app version is not set, empty or not scalar
      *
      * @return void
      * @uses AppVersion::get
@@ -47,6 +47,9 @@ class AppVersionTest extends TestCase
         self::assertSame('Unknown', AppVersion::get());
 
         Configure::write('App.version', '');
+        self::assertSame('Unknown', AppVersion::get());
+
+        Configure::write('App.version', ['1.2.3']);
         self::assertSame('Unknown', AppVersion::get());
     }
 
@@ -59,9 +62,6 @@ class AppVersionTest extends TestCase
     public function testConfigDefaults(): void
     {
         self::assertSame('app-version', AppVersion::config('meta.name'));
-        self::assertFalse(AppVersion::config('endpoint.enabled'));
-        self::assertSame('/app-version', AppVersion::config('endpoint.path'));
-        self::assertSame([], AppVersion::config('endpoint.middleware'));
         self::assertTrue(AppVersion::config('cli.enabled'));
         self::assertNull(AppVersion::config('does.not.exist'));
     }
@@ -75,9 +75,9 @@ class AppVersionTest extends TestCase
      */
     public function testConfigConfigured(): void
     {
-        Configure::write('AppVersion.endpoint', ['enabled' => true, 'path' => '/status/version']);
+        Configure::write('AppVersion', ['meta' => ['name' => 'acme-version'], 'cli' => ['enabled' => false]]);
 
-        self::assertTrue(AppVersion::isEnabled('endpoint'));
-        self::assertSame('/status/version', AppVersion::config('endpoint.path'));
+        self::assertSame('acme-version', AppVersion::config('meta.name'));
+        self::assertFalse(AppVersion::isEnabled('cli'));
     }
 }

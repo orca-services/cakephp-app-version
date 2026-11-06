@@ -23,19 +23,11 @@ class AppVersion
     /**
      * Default configuration of the output options.
      *
-     * Every output that is reachable from outside the server is disabled by default,
-     * because exposing the exact version can help attackers to fingerprint the app.
-     *
      * @var array<string, array<string, mixed>>
      */
     public const DEFAULTS = [
         'meta' => [
             'name' => 'app-version',
-        ],
-        'endpoint' => [
-            'enabled' => false,
-            'path' => '/app-version',
-            'middleware' => [],
         ],
         'cli' => [
             'enabled' => true,
