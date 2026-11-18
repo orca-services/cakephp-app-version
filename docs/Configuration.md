@@ -41,19 +41,6 @@ If the file is missing, unreadable or empty, `"Unknown"` is returned.
 
 Make sure this runs before the middleware queue is built.
 
-## Security considerations
-
-Exposing the exact version publicly can help attackers to fingerprint your app.
-That is why the plugin never connects the version endpoint on its own.
-Connect its route only where you need it, e.g. only on staging, and restrict it with route middleware if necessary
-(see [Version endpoint](Usage.md#version-endpoint)).
-
-For the same reason, that endpoint only returns the app version, but not the PHP or CakePHP version.
-Those would tell attackers exactly which known vulnerabilities of the platform to try,
-while they are of no use to deploy pipelines or monitors.
-
-Use the app version CLI through `bin/cake app_version --full` on the server if you need them.
-
 ---
 
 Back to the [Documentation](../README.md).

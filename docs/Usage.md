@@ -128,8 +128,16 @@ Without an extension, HTML is returned. The HTML template can be overridden in y
 This lets deploy pipelines, smoke tests, uptime monitors and load balancers verify which release is live.
 The response is sent with `Cache-Control: no-store`.
 
-Only the app version is returned, deliberately not the PHP or CakePHP version, see
-[Security considerations](Configuration.md#security-considerations).
+### Security considerations
+
+Exposing the exact version publicly can help attackers to fingerprint your app.
+That is why the plugin never connects the version endpoint on its own.
+Connect its route only where you need it, e.g. only on staging, and restrict access if necessary.
+
+For the same reason, the endpoint deliberately only returns the app version, but not the PHP or CakePHP version.
+Those would tell attackers exactly which known vulnerabilities of the platform to try,
+while they are of no use to deploy pipelines or monitors.
+If you need them, use the [CLI command](#cli-command) on the server.
 
 To restrict access, [apply route middleware](https://book.cakephp.org/5.x/development/routing.html#route-scoped-middleware) the same way as for any other route of your application:
 
