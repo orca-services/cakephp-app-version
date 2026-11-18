@@ -6,6 +6,7 @@ namespace AppVersion\Controller;
 use AppVersion\AppVersion;
 use Cake\Controller\Controller;
 use Cake\View\JsonView;
+use Cake\View\XmlView;
 
 /**
  * App Version controller
@@ -22,7 +23,15 @@ class VersionController extends Controller
      */
     protected const VIEW_CLASSES = [
         'json' => JsonView::class,
+        'xml' => XmlView::class,
     ];
+
+    /**
+     * The key of the app version in serialized responses, e.g. `{"app-version":"1.2.3"}`.
+     *
+     * @var string
+     */
+    public const SERIALIZE_KEY = 'app-version';
 
     /**
      * Show the app version.
@@ -36,17 +45,19 @@ class VersionController extends Controller
         $request->allowMethod(['get']);
 
         $this->response = $this->response->withHeader('Cache-Control', 'no-store');
-        $this->set('appVersion', AppVersion::get());
+        $appVersion = AppVersion::get();
 
         $extension = (string)$request->getParam('_ext');
         if (isset(static::VIEW_CLASSES[$extension])) {
+            $this->set(static::SERIALIZE_KEY, $appVersion);
             $viewBuilder
                 ->setClassName(static::VIEW_CLASSES[$extension])
-                ->setOption('serialize', ['app-version' => 'appVersion']);
+                ->setOption('serialize', [static::SERIALIZE_KEY]);
 
             return;
         }
 
+        $this->set(compact('appVersion'));
         $viewBuilder->disableAutoLayout();
     }
 }

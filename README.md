@@ -1,7 +1,7 @@
 # CakePHP App Version Plugin
 
 A CakePHP plugin for exposing a configurable app version as an HTTP header, in views (helper, meta tag), via an
-endpoint (as JSON or HTML) and on the CLI.
+endpoint (as JSON, XML or HTML) and on the CLI.
 
 ## Compatibility
 

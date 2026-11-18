@@ -98,6 +98,25 @@ class VersionControllerTest extends TestCase
     }
 
     /**
+     * Test show method returns XML for the .xml extension
+     *
+     * @return void
+     * @covers ::show
+     */
+    public function testShowXml(): void
+    {
+        $response = $this->renderShow('xml');
+
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame('application/xml', $response->getType());
+        self::assertSame('no-store', $response->getHeaderLine('Cache-Control'));
+        self::assertXmlStringEqualsXmlString(
+            '<?xml version="1.0" encoding="UTF-8"?><response><app-version>1.2.3</app-version></response>',
+            (string)$response->getBody(),
+        );
+    }
+
+    /**
      * Test show method falls back to HTML without an extension
      *
      * @return void

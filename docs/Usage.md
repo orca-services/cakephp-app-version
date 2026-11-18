@@ -101,7 +101,7 @@ $routes->scope('/', function (RouteBuilder $builder): void {
         '/app-version',
         ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
         'AppVersion.version',
-    )->setExtensions(['json', 'html']);
+    )->setExtensions(['json', 'xml', 'html']);
 });
 ```
 
@@ -112,6 +112,10 @@ The response format depends on the [file extension](https://book.cakephp.org/5.x
 ```
 $ curl https://example.com/app-version.json
 {"app-version":"1.2.3"}
+
+$ curl https://example.com/app-version.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response><app-version>1.2.3</app-version></response>
 
 $ curl https://example.com/app-version.html
 $ curl https://example.com/app-version
@@ -138,7 +142,7 @@ $routes->scope('/', function (RouteBuilder $builder): void {
         ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
         'AppVersion.version',
     )
-        ->setExtensions(['json', 'html'])
+        ->setExtensions(['json', 'xml', 'html'])
         ->setMiddleware(['versionAuth']);
 });
 ```
