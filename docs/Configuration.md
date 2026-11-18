@@ -43,4 +43,4 @@ Make sure this runs before the middleware queue is built.
 
 ---
 
-Back to the [Documentation](../README.md).
+Continue with the [usage](./Usage.md) or Back to the [documentation](../README.md).
