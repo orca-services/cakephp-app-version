@@ -3,14 +3,15 @@
 Once the plugin is [installed and loaded](Installation.md), the app version can be exposed in several ways.
 
 All of them read the same `App.version` value from the [configuration](Configuration.md).
+If `App.version` is not set, all of them return `"Unknown"` instead.
 
 | Output                                        | Example                                             | Available                           |
 |-----------------------------------------------|-----------------------------------------------------|-------------------------------------|
 | [HTTP response header](#http-response-header) | `X-App-Version: 1.2.3`                              | When the middleware is added        |
-| [View helper](#view-helper)                   | `$this->AppVersion->get()` → `1.2.3`                         | When the helper is loaded           |
+| [View helper](#view-helper)                   | `$this->AppVersion->get()` → `1.2.3`                | When the helper is loaded           |
 | [HTML meta tag](#html-meta-tag)               | `<meta name="app-version" content="1.2.3">`         | When `meta()` is used in a template |
 | [Version endpoint](#version-endpoint)         | `GET /app-version.json` → `{"app-version":"1.2.3"}` | When you connect its route          |
-| [CLI command](#cli-command)                   | `bin/cake app_version`                              | Always                              |
+| [CLI command](#cli-command)                   | `bin/cake app_version` → `1.2.3`                    | Always                              |
 
 ## HTTP response header
 
@@ -40,14 +41,21 @@ Every response will then include an HTTP header of the form:
 
 ## View helper
 
-Load the [helper](https://book.cakephp.org/5.x/views/helpers.html#helpers) in your view class, e.g. `src/View/AppView.php`:
+Load the [helper](https://book.cakephp.org/5.x/views/helpers.html#helpers) in your view class, e.g. `src/View/AppView.php`,
+and type hint it in the class docblock for IDE autocompletion and static analysis:
 
 ```php
-public function initialize(): void
+/**
+ * @property \AppVersion\View\Helper\AppVersionHelper $AppVersion
+ */
+class AppView extends View
 {
-    parent::initialize();
+    public function initialize(): void
+    {
+        parent::initialize();
 
-    $this->addHelper('AppVersion.AppVersion');
+        $this->addHelper('AppVersion.AppVersion');
+    }
 }
 ```
 
@@ -61,7 +69,6 @@ Then use it in your templates, e.g. in a footer:
 
 `get()` returns the raw version, escape it with [`h()`](https://book.cakephp.org/5.x/core-libraries/global-constants-and-functions.html#h) when printing it in HTML.
 `getUrlEncoded()` returns the URL encoded version, e.g. for cache busting query strings.
-Both return `"Unknown"` if `App.version` is not set.
 
 ## HTML meta tag
 
@@ -79,7 +86,6 @@ This renders:
 <head>
     <meta name="app-version" content="1.2.3">
 </head>
-
 ```
 
 To append it to the `meta` view block instead, pass `['block' => true]`.
@@ -87,7 +93,7 @@ To append it to the `meta` view block instead, pass `['block' => true]`.
 The version can then be read from frontend code or E2E tests:
 
 ```js
-document.getElementById(meta-app-version')?.content;
+document.querySelector('meta[name="app-version"]')?.content;
 ```
 
 ## Version endpoint
@@ -162,7 +168,11 @@ Print the version on the server or in deploy scripts without HTTP access:
 ```
 $ bin/cake app_version
 1.2.3
+```
 
+Use the `--full` (or `-f`) option to also print the PHP version, the CakePHP version and the debug mode:
+
+```
 $ bin/cake app_version --full
 PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3
 ```
