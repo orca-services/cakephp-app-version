@@ -25,14 +25,19 @@ With the [header middleware](Usage.md#http-response-header) this will add a HTTP
 Acme-App-Version: 1.2.3
 ```
 
-To keep the version in sync with your release process, read it dynamically in `config/bootstrap.php`, for example from a `VERSION` file:
+To keep the version in sync with your release process, read it dynamically in `config/bootstrap.php`
+from a version file:
 
 ```php
-Configure::write(
-    'App.version',
-    trim((string)@file_get_contents(ROOT . DS . 'VERSION')) ?: 'Unknown'
-);
+use AppVersion\AppVersion;
+
+Configure::write('App.version', AppVersion::extractVersion());
 ```
+
+By default, `AppVersion::extractVersion()` reads the `VERSION` file in your application's root directory
+(`AppVersion::DEFAULT_VERSION_FILE`) and removes leading and trailing whitespace.
+Pass another path to read a different file, e.g. `AppVersion::extractVersion(CONFIG . 'version.txt')`.
+If the file is missing, unreadable or empty, `"Unknown"` is returned.
 
 Make sure this runs before the middleware queue is built.
 

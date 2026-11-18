@@ -15,6 +15,13 @@ use Cake\TestSuite\TestCase;
 class AppVersionTest extends TestCase
 {
     /**
+     * Temporary version files to delete after each test
+     *
+     * @var array<string>
+     */
+    protected array $versionFiles = [];
+
+    /**
      * @inheritDoc
      */
     public function setUp(): void
@@ -52,5 +59,75 @@ class AppVersionTest extends TestCase
 
         Configure::write('App.version', ['1.2.3']);
         self::assertSame('Unknown', AppVersion::get());
+    }
+
+    /**
+     * Test extractVersion method trims the version from the version file
+     *
+     * @return void
+     * @covers ::extractVersion
+     */
+    public function testExtractVersion(): void
+    {
+        $versionFile = $this->createVersionFile(" 1.2.3\n");
+
+        self::assertSame('1.2.3', AppVersion::extractVersion($versionFile));
+    }
+
+    /**
+     * Test extractVersion method when the version file is missing or empty
+     *
+     * @return void
+     * @covers ::extractVersion
+     */
+    public function testExtractVersionMissingOrEmpty(): void
+    {
+        self::assertSame('Unknown', AppVersion::extractVersion(TMP . 'missing-version-file'));
+        self::assertSame('Unknown', AppVersion::extractVersion(TMP));
+        self::assertSame('Unknown', AppVersion::extractVersion($this->createVersionFile(" \n")));
+    }
+
+    /**
+     * Test extractVersion method reads `ROOT/VERSION` by default
+     *
+     * @return void
+     * @covers ::extractVersion
+     */
+    public function testExtractVersionDefaultFile(): void
+    {
+        self::assertSame(ROOT . DS . 'VERSION', AppVersion::DEFAULT_VERSION_FILE);
+
+        $expected = is_file(AppVersion::DEFAULT_VERSION_FILE)
+            ? AppVersion::extractVersion(AppVersion::DEFAULT_VERSION_FILE)
+            : 'Unknown';
+        self::assertSame($expected, AppVersion::extractVersion());
+    }
+
+    /**
+     * Create a temporary version file
+     *
+     * @param string $content The content of the version file.
+     * @return string The path of the version file.
+     */
+    protected function createVersionFile(string $content): string
+    {
+        $versionFile = (string)tempnam(TMP, 'version');
+        file_put_contents($versionFile, $content);
+        $this->versionFiles[] = $versionFile;
+
+        return $versionFile;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function tearDown(): void
+    {
+        foreach ($this->versionFiles as $versionFile) {
+            unlink($versionFile);
+        }
+        $this->versionFiles = [];
+
+        parent::tearDown();
     }
 }
