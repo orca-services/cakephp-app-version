@@ -6,14 +6,14 @@ namespace AppVersion;
 use Cake\Core\Configure;
 
 /**
- * AppVersion
+ * App Version
  *
  * Central access point for the app version.
  */
 class AppVersion
 {
     /**
-     * The version returned if `App.version` is not set.
+     * The version string to be returned if `App.version` is not set.
      *
      * @var string
      */

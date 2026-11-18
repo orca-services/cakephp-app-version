@@ -5,12 +5,12 @@
 All outputs of the plugin read the version from CakePHP's `Configure` registry.
 `App.version` is the **single source of truth**:
 
-| Key                 | Purpose                               | Default     |
+| Key                 | Purpose                               | Fallback    |
 |---------------------|---------------------------------------|-------------|
 | `App.version`       | The version string to expose          | `"Unknown"` |
 | `App.versionPrefix` | The vendor prefix for the header name | `"X"`       |
 
-Set them in `config/app.php` (or `config/app_local.php`):
+Set them in `config/app.php` (or `config/app_local.php`), like so:
 
 ```php
 'App' => [
@@ -43,10 +43,11 @@ That is why the plugin never connects the version endpoint on its own.
 Connect its route only where you need it, e.g. only on staging, and restrict it with route middleware if necessary
 (see [Version endpoint](Usage.md#version-endpoint)).
 
-For the same reason the endpoint only returns the app version, but not the PHP or CakePHP version.
+For the same reason, that endpoint only returns the app version, but not the PHP or CakePHP version.
 Those would tell attackers exactly which known vulnerabilities of the platform to try,
 while they are of no use to deploy pipelines or monitors.
-Use `bin/cake app_version --full` on the server if you need them.
+
+Use the app version CLI through `bin/cake app_version --full` on the server if you need them.
 
 ---
 
