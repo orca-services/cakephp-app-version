@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
     - `AppVersion` view helper with `get()`, `getUrlEncoded()` and `meta()`
     - Version endpoint controller serving JSON, XML or HTML depending on the extension, e.g. `GET /app-version.json`
     - `bin/cake app_version` CLI command
+    - `AppVersion::extractVersion()` to read the app version from a `VERSION` file
 
 ### Changed
 
