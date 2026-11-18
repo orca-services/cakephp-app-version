@@ -31,20 +31,22 @@ class VersionController extends Controller
      */
     public function index(): void
     {
-        $this->request->allowMethod(['get']);
+        $request = $this->request;
+        $viewBuilder = $this->viewBuilder();
+        $request->allowMethod(['get']);
 
         $this->response = $this->response->withHeader('Cache-Control', 'no-store');
         $this->set('appVersion', AppVersion::get());
 
-        $extension = (string)$this->request->getParam('_ext');
+        $extension = (string)$request->getParam('_ext');
         if (isset(static::VIEW_CLASSES[$extension])) {
-            $this->viewBuilder()
+            $viewBuilder
                 ->setClassName(static::VIEW_CLASSES[$extension])
                 ->setOption('serialize', ['app-version' => 'appVersion']);
 
             return;
         }
 
-        $this->viewBuilder()->disableAutoLayout();
+        $viewBuilder->disableAutoLayout();
     }
 }
