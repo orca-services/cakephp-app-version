@@ -12,6 +12,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * VersionController Test Case
+ *
+ * @coversDefaultClass \AppVersion\Controller\VersionController
  */
 class VersionControllerTest extends TestCase
 {
@@ -68,7 +70,7 @@ class VersionControllerTest extends TestCase
      * Test index method returns JSON for the json extension
      *
      * @return void
-     * @uses VersionController::index
+     * @covers ::index
      */
     public function testIndexJson(): void
     {
@@ -84,7 +86,7 @@ class VersionControllerTest extends TestCase
      * Test index method returns JSON with "Unknown" if the app version is not set
      *
      * @return void
-     * @uses VersionController::index
+     * @covers ::index
      */
     public function testIndexJsonAppVersionNotSet(): void
     {
@@ -99,7 +101,7 @@ class VersionControllerTest extends TestCase
      * Test index method falls back to HTML without an extension
      *
      * @return void
-     * @uses VersionController::index
+     * @covers ::index
      */
     public function testIndexHtmlFallback(): void
     {
@@ -115,7 +117,7 @@ class VersionControllerTest extends TestCase
      * Test index method returns HTML for the html extension and escapes the version
      *
      * @return void
-     * @uses VersionController::index
+     * @covers ::index
      */
     public function testIndexHtmlEscaping(): void
     {
@@ -133,7 +135,7 @@ class VersionControllerTest extends TestCase
      * Test index method only allows reading
      *
      * @return void
-     * @uses VersionController::index
+     * @covers ::index
      */
     public function testIndexPostNotAllowed(): void
     {

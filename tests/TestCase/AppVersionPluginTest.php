@@ -10,6 +10,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * AppVersionPlugin Test Case
+ *
+ * @coversDefaultClass \AppVersion\AppVersionPlugin
  */
 class AppVersionPluginTest extends TestCase
 {
@@ -27,7 +29,7 @@ class AppVersionPluginTest extends TestCase
      * Test the command is added
      *
      * @return void
-     * @uses AppVersionPlugin::console
+     * @covers ::console
      */
     public function testConsole(): void
     {

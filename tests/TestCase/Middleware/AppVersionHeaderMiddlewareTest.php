@@ -13,13 +13,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * AppVersionHeaderMiddleware Test Case
+ *
+ * @coversDefaultClass \AppVersion\Middleware\AppVersionHeaderMiddleware
  */
 class AppVersionHeaderMiddlewareTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \AppVersion\Middleware\AppVersionHeaderMiddleware
+     * @var AppVersionHeaderMiddleware
      */
     protected AppVersionHeaderMiddleware $appVersionHeader;
 
@@ -49,7 +51,7 @@ class AppVersionHeaderMiddlewareTest extends TestCase
      * Test process method
      *
      * @return void
-     * @uses \AppVersion\Middleware\AppVersionHeaderMiddleware::process()
+     * @covers ::process
      */
     public function testProcess(): void
     {
@@ -73,7 +75,7 @@ class AppVersionHeaderMiddlewareTest extends TestCase
      * Test process method when app version is not set
      *
      * @return void
-     * @uses \AppVersion\Middleware\AppVersionHeaderMiddleware::process()
+     * @covers ::process
      */
     public function testProcessAppVersionNotSet(): void
     {
@@ -96,7 +98,7 @@ class AppVersionHeaderMiddlewareTest extends TestCase
      * Test process method when app versionPrefix is not set
      *
      * @return void
-     * @uses \AppVersion\Middleware\AppVersionHeaderMiddleware::process()
+     * @covers ::process
      */
     public function testProcessAppVersionPrefixNotSet(): void
     {

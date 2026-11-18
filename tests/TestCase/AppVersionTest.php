@@ -9,6 +9,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * AppVersion Test Case
+ *
+ * @coversDefaultClass \AppVersion\AppVersion
  */
 class AppVersionTest extends TestCase
 {
@@ -26,7 +28,7 @@ class AppVersionTest extends TestCase
      * Test get method
      *
      * @return void
-     * @uses AppVersion::get
+     * @covers ::get
      */
     public function testGet(): void
     {
@@ -39,7 +41,7 @@ class AppVersionTest extends TestCase
      * Test get method when the app version is not set, empty or not scalar
      *
      * @return void
-     * @uses AppVersion::get
+     * @covers ::get
      */
     public function testGetNotSet(): void
     {

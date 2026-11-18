@@ -10,6 +10,8 @@ use Cake\View\View;
 
 /**
  * AppVersionHelper Test Case
+ *
+ * @coversDefaultClass \AppVersion\View\Helper\AppVersionHelper
  */
 class AppVersionHelperTest extends TestCase
 {
@@ -42,7 +44,7 @@ class AppVersionHelperTest extends TestCase
      * Test get method
      *
      * @return void
-     * @uses AppVersionHelper::get
+     * @covers ::get
      */
     public function testGet(): void
     {
@@ -56,7 +58,7 @@ class AppVersionHelperTest extends TestCase
      * Test getUrlEncoded method
      *
      * @return void
-     * @uses AppVersionHelper::getUrlEncoded
+     * @covers ::getUrlEncoded
      */
     public function testGetUrlEncoded(): void
     {
@@ -73,7 +75,7 @@ class AppVersionHelperTest extends TestCase
      * Test meta method
      *
      * @return void
-     * @uses AppVersionHelper::meta
+     * @covers ::meta
      */
     public function testMeta(): void
     {
@@ -84,7 +86,7 @@ class AppVersionHelperTest extends TestCase
      * Test meta method escapes the version
      *
      * @return void
-     * @uses AppVersionHelper::meta
+     * @covers ::meta
      */
     public function testMetaEscaping(): void
     {
@@ -100,7 +102,7 @@ class AppVersionHelperTest extends TestCase
      * Test meta method appending to a view block
      *
      * @return void
-     * @uses AppVersionHelper::meta
+     * @covers ::meta
      */
     public function testMetaBlock(): void
     {

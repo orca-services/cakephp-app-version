@@ -11,6 +11,8 @@ use Cake\TestSuite\TestCase;
 
 /**
  * AppVersionCommand Test Case
+ *
+ * @coversDefaultClass \AppVersion\Command\AppVersionCommand
  */
 class AppVersionCommandTest extends TestCase
 {
@@ -47,7 +49,7 @@ class AppVersionCommandTest extends TestCase
      * Test the command name
      *
      * @return void
-     * @uses AppVersionCommand::defaultName
+     * @covers ::defaultName
      */
     public function testDefaultName(): void
     {
@@ -58,7 +60,7 @@ class AppVersionCommandTest extends TestCase
      * Test execute method
      *
      * @return void
-     * @uses AppVersionCommand::execute
+     * @covers ::execute
      */
     public function testExecute(): void
     {
@@ -72,7 +74,7 @@ class AppVersionCommandTest extends TestCase
      * Test execute method when the app version is not set
      *
      * @return void
-     * @uses AppVersionCommand::execute
+     * @covers ::execute
      */
     public function testExecuteAppVersionNotSet(): void
     {
@@ -87,7 +89,7 @@ class AppVersionCommandTest extends TestCase
      * Test execute method with the full option
      *
      * @return void
-     * @uses AppVersionCommand::execute
+     * @covers ::execute
      */
     public function testExecuteFull(): void
     {
