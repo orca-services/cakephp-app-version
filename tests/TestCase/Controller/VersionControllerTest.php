@@ -42,7 +42,7 @@ class VersionControllerTest extends TestCase
             'params' => [
                 'plugin' => 'AppVersion',
                 'controller' => 'Version',
-                'action' => 'index',
+                'action' => 'show',
                 '_ext' => $extension,
                 'pass' => [],
             ],
@@ -53,28 +53,28 @@ class VersionControllerTest extends TestCase
     }
 
     /**
-     * Call the index action and render it
+     * Call the show action and render it
      *
      * @param string|null $extension The requested file extension.
      * @return Response
      */
-    protected function renderIndex(?string $extension = null): Response
+    protected function renderShow(?string $extension = null): Response
     {
         $controller = $this->createController($extension);
-        $controller->index();
+        $controller->show();
 
         return $controller->render();
     }
 
     /**
-     * Test index method returns JSON for the json extension
+     * Test show method returns JSON for the json extension
      *
      * @return void
-     * @covers ::index
+     * @covers ::show
      */
-    public function testIndexJson(): void
+    public function testShowJson(): void
     {
-        $response = $this->renderIndex('json');
+        $response = $this->renderShow('json');
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('application/json', $response->getType());
@@ -83,29 +83,29 @@ class VersionControllerTest extends TestCase
     }
 
     /**
-     * Test index method returns JSON with "Unknown" if the app version is not set
+     * Test show method returns JSON with "Unknown" if the app version is not set
      *
      * @return void
-     * @covers ::index
+     * @covers ::show
      */
-    public function testIndexJsonAppVersionNotSet(): void
+    public function testShowJsonAppVersionNotSet(): void
     {
         Configure::delete('App.version');
 
-        $response = $this->renderIndex('json');
+        $response = $this->renderShow('json');
 
         self::assertSame(['app-version' => 'Unknown'], json_decode((string)$response->getBody(), true));
     }
 
     /**
-     * Test index method falls back to HTML without an extension
+     * Test show method falls back to HTML without an extension
      *
      * @return void
-     * @covers ::index
+     * @covers ::show
      */
-    public function testIndexHtmlFallback(): void
+    public function testShowHtmlFallback(): void
     {
-        $response = $this->renderIndex();
+        $response = $this->renderShow();
 
         self::assertSame(200, $response->getStatusCode());
         self::assertSame('text/html', $response->getType());
@@ -114,16 +114,16 @@ class VersionControllerTest extends TestCase
     }
 
     /**
-     * Test index method returns HTML for the html extension and escapes the version
+     * Test show method returns HTML for the html extension and escapes the version
      *
      * @return void
-     * @covers ::index
+     * @covers ::show
      */
-    public function testIndexHtmlEscaping(): void
+    public function testShowHtmlEscaping(): void
     {
         Configure::write('App.version', '1.2.3<script>');
 
-        $response = $this->renderIndex('html');
+        $response = $this->renderShow('html');
         $body = (string)$response->getBody();
 
         self::assertSame('text/html', $response->getType());
@@ -132,15 +132,15 @@ class VersionControllerTest extends TestCase
     }
 
     /**
-     * Test index method only allows reading
+     * Test show method only allows reading
      *
      * @return void
-     * @covers ::index
+     * @covers ::show
      */
-    public function testIndexPostNotAllowed(): void
+    public function testShowPostNotAllowed(): void
     {
         $this->expectException(MethodNotAllowedException::class);
 
-        $this->createController('json', 'POST')->index();
+        $this->createController('json', 'POST')->show();
     }
 }

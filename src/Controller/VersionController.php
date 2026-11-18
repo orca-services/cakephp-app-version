@@ -29,7 +29,7 @@ class VersionController extends Controller
      *
      * @return void
      */
-    public function index(): void
+    public function show(): void
     {
         $request = $this->request;
         $viewBuilder = $this->viewBuilder();

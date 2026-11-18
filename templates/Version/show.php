@@ -2,7 +2,7 @@
 /**
  * HTML representation of the app version.
  *
- * Override it in your application with `templates/plugin/AppVersion/Version/index.php`.
+ * Override it in your application with `templates/plugin/AppVersion/Version/show.php`.
  *
  * @var \Cake\View\View $this
  * @var string $appVersion

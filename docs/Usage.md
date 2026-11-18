@@ -93,22 +93,23 @@ document.getElementById(meta-app-version')?.content;
 ## Version endpoint
 
 The plugin does not connect any route on its own, so the version endpoint is only available if you connect it
-in your [routes](https://book.cakephp.org/5.x/development/routing.html#quick-tour), e.g. in  `config/routes.php`:
+in your [routes](https://book.cakephp.org/5.x/development/routing.html#quick-tour), e.g. in `config/routes.php`:
 
 ```php
 $routes->scope('/', function (RouteBuilder $builder): void {
     $builder->get(
         '/app-version',
-        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'index'],
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
         'AppVersion.version',
     )->setExtensions(['json', 'html']);
 });
 ```
 
-You are free to choose the connected URL path and route name, You decide in which environments the route is connected.
+You are free to choose the connected URL path and route name. You decide in which environments the route is connected.
 
 The response format depends on the [file extension](https://book.cakephp.org/5.x/development/routing.html#routing-file-extensions):
 
+```
 $ curl https://example.com/app-version.json
 {"app-version":"1.2.3"}
 
@@ -118,7 +119,7 @@ $ curl https://example.com/app-version
 ```
 
 Without an extension, HTML is returned. The HTML template can be overridden in your application with
-`templates/plugin/AppVersion/Version/index.php`.
+`templates/plugin/AppVersion/Version/show.php`.
 
 This lets deploy pipelines, smoke tests, uptime monitors and load balancers verify which release is live.
 The response is sent with `Cache-Control: no-store`.
@@ -134,7 +135,7 @@ $routes->scope('/', function (RouteBuilder $builder): void {
 
     $builder->get(
         '/app-version',
-        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'index'],
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
         'AppVersion.version',
     )
         ->setExtensions(['json', 'html'])
