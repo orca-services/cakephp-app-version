@@ -40,6 +40,22 @@ class AppVersionCommand extends Command
     }
 
     /**
+     * @inheritDoc
+     */
+    protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
+    {
+        $parser
+            ->setDescription(static::getDescription())
+            ->addOption('full', [
+                'short' => 'f',
+                'boolean' => true,
+                'help' => 'Also print the PHP version, the CakePHP version and the debug mode.',
+            ]);
+
+        return $parser;
+    }
+
+    /**
      * Build the info line with the PHP, CakePHP and app version.
      *
      * E.g. `PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3`
@@ -55,22 +71,6 @@ class AppVersionCommand extends Command
             Configure::read('debug') ? 'true' : 'false',
             AppVersion::get(),
         );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
-    {
-        $parser
-            ->setDescription(static::getDescription())
-            ->addOption('full', [
-                'short' => 'f',
-                'boolean' => true,
-                'help' => 'Also print the PHP version, the CakePHP version and the debug mode.',
-            ]);
-
-        return $parser;
     }
 
     /**
