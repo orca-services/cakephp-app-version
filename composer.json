@@ -49,6 +49,10 @@
         "cakephp/cakephp-codesniffer": "^5.2.1",
         "phpunit/phpunit": "^10.0"
     },
+    "suggest": {
+        "ext-json": "If you want to support the app version as JSON",
+        "ext-xml": "If you want to support the app version as XML"
+    },
     "autoload": {
         "psr-4": {
             "AppVersion\\": "src/"
