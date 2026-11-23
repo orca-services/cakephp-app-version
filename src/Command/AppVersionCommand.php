@@ -83,10 +83,12 @@ class AppVersionCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): int
     {
         if ($args->getOption('full')) {
-            $io->out(self::infoLine());
+            $output = self::infoLine();
         } else {
-            $io->out(AppVersion::get());
+            $output = AppVersion::get();
         }
+
+        $io->out($output);
 
         return static::CODE_SUCCESS;
     }
