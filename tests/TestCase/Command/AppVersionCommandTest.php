@@ -90,6 +90,7 @@ class AppVersionCommandTest extends TestCase
      *
      * @return void
      * @covers ::execute
+     * @covers ::infoLine
      */
     public function testExecuteFull(): void
     {
