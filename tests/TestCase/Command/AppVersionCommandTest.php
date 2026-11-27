@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace AppVersion\Test\TestCase\Command;
 
 use AppVersion\Command\AppVersionCommand;
-use AppVersion\Test\TestApp\Application;
+use AppVersion\Test\TestApp\TestApplication;
 use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
@@ -25,7 +25,7 @@ class AppVersionCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->configApplication(Application::class, [CONFIG]);
+        $this->configApplication(TestApplication::class, [CONFIG]);
         Configure::write('App.version', '1.2.3');
     }
 
