@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace AppVersion\Test\TestCase\Command;
 
 use AppVersion\Command\AppVersionCommand;
-use Cake\Console\ConsoleIo;
-use Cake\Console\TestSuite\StubConsoleOutput;
+use AppVersion\Test\TestApp\Application;
+use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 
@@ -16,20 +16,7 @@ use Cake\TestSuite\TestCase;
  */
 class AppVersionCommandTest extends TestCase
 {
-    /**
-     * @var StubConsoleOutput
-     */
-    protected StubConsoleOutput $out;
-
-    /**
-     * @var StubConsoleOutput
-     */
-    protected StubConsoleOutput $err;
-
-    /**
-     * @var ConsoleIo
-     */
-    protected ConsoleIo $io;
+    use ConsoleIntegrationTestTrait;
 
     /**
      * @inheritDoc
@@ -38,11 +25,8 @@ class AppVersionCommandTest extends TestCase
     {
         parent::setUp();
 
+        $this->configApplication(Application::class, [CONFIG]);
         Configure::write('App.version', '1.2.3');
-
-        $this->out = new StubConsoleOutput();
-        $this->err = new StubConsoleOutput();
-        $this->io = new ConsoleIo($this->out, $this->err);
     }
 
     /**
@@ -57,6 +41,23 @@ class AppVersionCommandTest extends TestCase
     }
 
     /**
+     * Test the help output with the description and the full option
+     *
+     * @return void
+     * @covers ::getDescription
+     * @covers ::buildOptionParser
+     */
+    public function testHelp(): void
+    {
+        $this->exec('app_version --help');
+
+        $this->assertExitSuccess();
+        $this->assertOutputContains('Print the app version.');
+        $this->assertOutputContains('--full, -f');
+        $this->assertOutputContains('Also print the PHP version');
+    }
+
+    /**
      * Test execute method
      *
      * @return void
@@ -64,10 +65,10 @@ class AppVersionCommandTest extends TestCase
      */
     public function testExecute(): void
     {
-        $result = (new AppVersionCommand())->run([], $this->io);
+        $this->exec('app_version');
 
-        self::assertSame(AppVersionCommand::CODE_SUCCESS, $result);
-        self::assertSame(['1.2.3'], $this->out->messages());
+        $this->assertExitSuccess();
+        $this->assertOutputContains('1.2.3');
     }
 
     /**
@@ -80,9 +81,10 @@ class AppVersionCommandTest extends TestCase
     {
         Configure::delete('App.version');
 
-        (new AppVersionCommand())->run([], $this->io);
+        $this->exec('app_version');
 
-        self::assertSame(['Unknown'], $this->out->messages());
+        $this->assertExitSuccess();
+        $this->assertOutputContains('Unknown');
     }
 
     /**
@@ -96,13 +98,32 @@ class AppVersionCommandTest extends TestCase
     {
         Configure::write('debug', false);
 
-        (new AppVersionCommand())->run(['--full'], $this->io);
+        $this->exec('app_version --full');
 
-        $expected = sprintf(
+        $this->assertExitSuccess();
+        $this->assertOutputContains(sprintf(
             'PHP %s, CakePHP %s (debug: false), app version 1.2.3',
             PHP_VERSION,
             Configure::version(),
-        );
-        self::assertSame([$expected], $this->out->messages());
+        ));
+    }
+
+    /**
+     * Test execute method with the short full option
+     *
+     * @return void
+     * @covers ::execute
+     * @covers ::infoLine
+     */
+    public function testExecuteFullShort(): void
+    {
+        $this->exec('app_version -f');
+
+        $this->assertExitSuccess();
+        $this->assertOutputContains(sprintf(
+            'PHP %s, CakePHP %s (debug: true), app version 1.2.3',
+            PHP_VERSION,
+            Configure::version(),
+        ));
     }
 }
