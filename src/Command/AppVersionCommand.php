@@ -62,7 +62,7 @@ class AppVersionCommand extends Command
      *
      * @return string
      */
-    public static function infoLine(): string
+    protected static function infoLine(): string
     {
         return sprintf(
             'PHP %s, CakePHP %s (debug: %s), app version %s',
@@ -83,7 +83,7 @@ class AppVersionCommand extends Command
     public function execute(Arguments $args, ConsoleIo $io): int
     {
         if ($args->getOption('full')) {
-            $io->out(static::infoLine());
+            $io->out(self::infoLine());
         } else {
             $io->out(AppVersion::get());
         }
