@@ -5,10 +5,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](https://github.com/orca-services/cakephp-app-version)
 
 ### Added
+- More ways to expose the app version, all reading `App.version` [#18](https://github.com/orca-services/cakephp-app-version/issues/18):
+    - `AppVersion` view helper with `get()`, `getUrlEncoded()` and `meta()`
+    - Version endpoint controller serving JSON, XML or HTML depending on the extension, e.g. `GET /app-version.json`
+    - `bin/cake app_version` CLI command
+    - `AppVersion::extractVersion()` to read the app version from a `VERSION` file
+-  Added mikey179/vfsstream as dev dependency for testing purposes
 
 ### Changed
 
 ### Dependencies
+- mikey179/vfsstream installed in version 1.6.12
 
 ### Fixed
 

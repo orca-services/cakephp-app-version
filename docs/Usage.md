@@ -1,6 +1,21 @@
 # Usage
 
-Once the plugin is installed and loaded (see [Installation](Installation.md)), add the middleware to your middleware queue in `src/Application.php`:
+Once the plugin is [installed and loaded](Installation.md), the app version can be exposed in several ways.
+
+All of them read the same `App.version` value from the [configuration](Configuration.md).
+If `App.version` is not set, all of them return `"Unknown"` instead.
+
+| Output                                        | Example                                             | Available                           |
+|-----------------------------------------------|-----------------------------------------------------|-------------------------------------|
+| [HTTP response header](#http-response-header) | `X-App-Version: 1.2.3`                              | When the middleware is added        |
+| [View helper](#view-helper)                   | `$this->AppVersion->get()` → `1.2.3`                | When the helper is loaded           |
+| [HTML meta tag](#html-meta-tag)               | `<meta name="app-version" content="1.2.3">`         | When `meta()` is used in a template |
+| [Version endpoint](#version-endpoint)         | `GET /app-version.json` → `{"app-version":"1.2.3"}` | When you connect its route          |
+| [CLI command](#cli-command)                   | `bin/cake app_version` → `1.2.3`                    | Always                              |
+
+## HTTP response header
+
+Add the app version [middleware](https://book.cakephp.org/5.x/controllers/middleware.html#middleware) to your [middleware queue](https://book.cakephp.org/5.x/controllers/middleware.html#using-middleware) in `src/Application.php`:
 
 ```php
 use AppVersion\Middleware\AppVersionHeaderMiddleware;
@@ -18,12 +33,148 @@ public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
 
 Add `AppVersionHeaderMiddleware` **before** `ErrorHandlerMiddleware` if you want the header to be present on error responses as well.
 
-Configure the header value and prefix as described in [Configuration](Configuration.md).
-
 Every response will then include an HTTP header of the form:
 
 ```
 {Prefix}-App-Version: {Version}
+```
+
+## View helper
+
+Load the [helper](https://book.cakephp.org/5.x/views/helpers.html#helpers) in your view class, e.g. `src/View/AppView.php`,
+and type hint it in the class docblock for IDE autocompletion and static analysis:
+
+```php
+/**
+ * @property \AppVersion\View\Helper\AppVersionHelper $AppVersion
+ */
+class AppView extends View
+{
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->addHelper('AppVersion.AppVersion');
+    }
+}
+```
+
+Then use it in your templates, e.g. in a footer:
+
+```php
+<footer>Version <?= h($this->AppVersion->get()) ?></footer>
+
+<?= $this->Html->script('app.js?v=' . $this->AppVersion->getUrlEncoded()) ?>
+```
+
+`get()` returns the raw version, escape it with [`h()`](https://book.cakephp.org/5.x/core-libraries/global-constants-and-functions.html#h) when printing it in HTML.
+`getUrlEncoded()` returns the URL encoded version, e.g. for cache busting query strings.
+
+## HTML meta tag
+
+Add an app version [meta tag](https://book.cakephp.org/5.x/views/helpers/html.html#creating-meta-tags) to your [layout](https://book.cakephp.org/5.x/views.html#layouts), e.g. `templates/layout/default.php`:
+
+```php
+<head>
+    <?= $this->AppVersion->meta() ?>
+</head>
+```
+
+This renders:
+
+```html
+<head>
+    <meta name="app-version" content="1.2.3">
+</head>
+```
+
+To append it to the `meta` view block instead, pass `['block' => true]`.
+
+The version can then be read from frontend code or E2E tests:
+
+```js
+document.querySelector('meta[name="app-version"]')?.content;
+```
+
+## Version endpoint
+
+The plugin does not connect any route on its own, so the version endpoint is only available if you connect it
+in your [routes](https://book.cakephp.org/5.x/development/routing.html#quick-tour), e.g. in `config/routes.php`:
+
+```php
+$routes->scope('/', function (RouteBuilder $builder): void {
+    $builder->get(
+        '/app-version',
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
+        'AppVersion.version',
+    )->setExtensions(['json', 'xml', 'html']);
+});
+```
+
+You are free to choose the connected URL path and route name. You decide in which environments the route is connected.
+
+The response format depends on the [file extension](https://book.cakephp.org/5.x/development/routing.html#routing-file-extensions):
+
+```
+$ curl https://example.com/app-version.json
+{"app-version":"1.2.3"}
+
+$ curl https://example.com/app-version.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<response><app-version>1.2.3</app-version></response>
+
+$ curl https://example.com/app-version.html
+$ curl https://example.com/app-version
+<!DOCTYPE html> [...] App version: <span class="app-version">1.2.3</span> [...]
+```
+
+Without an extension, HTML is returned. The HTML template can be overridden in your application with
+`templates/plugin/AppVersion/Version/show.php`.
+
+This lets deploy pipelines, smoke tests, uptime monitors and load balancers verify which release is live.
+The response is sent with `Cache-Control: no-store`.
+
+### Security considerations
+
+Exposing the exact version publicly can help attackers to fingerprint your app.
+That is why the plugin never connects the version endpoint on its own.
+Connect its route only where you need it, e.g. only on staging, and restrict access if necessary.
+
+For the same reason, the endpoint deliberately only returns the app version, but not the PHP or CakePHP version.
+Those would tell attackers exactly which known vulnerabilities of the platform to try,
+while they are of no use to deploy pipelines or monitors.
+If you need them, use the [CLI command](#cli-command) on the server.
+
+To restrict access, [apply route middleware](https://book.cakephp.org/5.x/development/routing.html#route-scoped-middleware) the same way as for any other route of your application:
+
+```php
+$routes->scope('/', function (RouteBuilder $builder): void {
+    $builder->registerMiddleware('versionAuth', new MyIpAllowListMiddleware());
+
+    $builder->get(
+        '/app-version',
+        ['plugin' => 'AppVersion', 'controller' => 'Version', 'action' => 'show'],
+        'AppVersion.version',
+    )
+        ->setExtensions(['json', 'xml', 'html'])
+        ->setMiddleware(['versionAuth']);
+});
+```
+
+## CLI command
+
+Print the version on the server or in deploy scripts without HTTP access:
+
+```
+$ bin/cake app_version
+1.2.3
+```
+
+Use the `--full` (or `-f`) option to also print the PHP version, the CakePHP version and the debug mode:
+
+```
+$ bin/cake app_version --full
+PHP 8.3.6, CakePHP 5.3.6 (debug: false), app version 1.2.3
 ```
 
 ---
