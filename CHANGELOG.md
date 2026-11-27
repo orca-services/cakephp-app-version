@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 ### Dependencies
+- mikey179/vfsstream installed in version 1.6.12
 
 ### Fixed
 

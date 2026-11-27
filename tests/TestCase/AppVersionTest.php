@@ -6,6 +6,8 @@ namespace AppVersion\Test\TestCase;
 use AppVersion\AppVersion;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
+use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 /**
  * AppVersion Test Case
@@ -15,11 +17,11 @@ use Cake\TestSuite\TestCase;
 class AppVersionTest extends TestCase
 {
     /**
-     * Temporary version files to delete after each test
+     * Virtual file system root for the version files
      *
-     * @var array<string>
+     * @var vfsStreamDirectory
      */
-    protected array $versionFiles = [];
+    protected vfsStreamDirectory $root;
 
     /**
      * @inheritDoc
@@ -29,6 +31,7 @@ class AppVersionTest extends TestCase
         parent::setUp();
 
         Configure::delete('App.version');
+        $this->root = vfsStream::setup();
     }
 
     /**
@@ -82,8 +85,8 @@ class AppVersionTest extends TestCase
      */
     public function testExtractVersionMissingOrEmpty(): void
     {
-        self::assertSame('Unknown', AppVersion::extractVersion(TMP . 'missing-version-file'));
-        self::assertSame('Unknown', AppVersion::extractVersion(TMP));
+        self::assertSame('Unknown', AppVersion::extractVersion(vfsStream::url('root/missing-version-file')));
+        self::assertSame('Unknown', AppVersion::extractVersion(vfsStream::url('root')));
         self::assertSame('Unknown', AppVersion::extractVersion($this->createVersionFile(" \n")));
     }
 
@@ -104,30 +107,16 @@ class AppVersionTest extends TestCase
     }
 
     /**
-     * Create a temporary version file
+     * Create a version file in the virtual file system
      *
      * @param string $content The content of the version file.
-     * @return string The path of the version file.
+     * @return string The URL of the version file.
      */
     protected function createVersionFile(string $content): string
     {
-        $versionFile = (string)tempnam(TMP, 'version');
-        file_put_contents($versionFile, $content);
-        $this->versionFiles[] = $versionFile;
-
-        return $versionFile;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function tearDown(): void
-    {
-        foreach ($this->versionFiles as $versionFile) {
-            unlink($versionFile);
-        }
-        $this->versionFiles = [];
-
-        parent::tearDown();
+        return vfsStream::newFile('VERSION')
+            ->withContent($content)
+            ->at($this->root)
+            ->url();
     }
 }

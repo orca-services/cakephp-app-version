@@ -46,6 +46,7 @@
         "cakephp/cakephp": "^5.3.6"
     },
     "require-dev": {
+        "mikey179/vfsstream": "^1.6.12",
         "cakephp/cakephp-codesniffer": "^5.2.1",
         "phpunit/phpunit": "^10.0"
     },
